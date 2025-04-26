@@ -1,2 +1,111 @@
-hello
-
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Custom Profile for [Friend's Name]</title>
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: #000;
+      font-family: 'Courier New', Courier, monospace;
+      color: #fff;
+      overflow: hidden;
+    }
+    .container {
+      text-align: center;
+      position: relative;
+    }
+    .username {
+      font-size: 3em;
+      color: #fff;
+      text-shadow: 0 0 10px #fff, 0 0 20px #ff00ff, 0 0 30px #ff00ff;
+      animation: glow 2s ease-in-out infinite alternate;
+    }
+    @keyframes glow {
+      from {
+        text-shadow: 0 0 10px #fff, 0 0 20px #ff00ff, 0 0 30px #ff00ff;
+      }
+      to {
+        text-shadow: 0 0 20px #fff, 0 0 30px #ff00ff, 0 0 40px #ff00ff;
+      }
+    }
+    .scythe {
+      font-size: 5em;
+      color: #fff;
+      text-shadow: 0 0 15px #fff, 0 0 25px #ff00ff;
+      margin: 20px 0;
+      position: relative;
+    }
+    .scythe::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      width: 50%;
+      height: 10px;
+      background: rgba(255, 255, 255, 0.3);
+      filter: blur(5px);
+      transform: translateX(-50%);
+    }
+    .links {
+      display: flex;
+      gap: 20px;
+      margin-top: 20px;
+    }
+    .link-btn {
+      padding: 10px 20px;
+      background: #222;
+      color: #fff;
+      text-decoration: none;
+      border-radius: 5px;
+      border: 1px solid #ff00ff;
+      transition: all 0.3s ease;
+    }
+    .link-btn:hover {
+      background: #ff00ff;
+      color: #000;
+      box-shadow: 0 0 10px #ff00ff;
+    }
+    .stars {
+      position: absolute;
+      width: 2px;
+      height: 2px;
+      background: #fff;
+      box-shadow: 0 0 5px #fff;
+      animation: twinkle 3s infinite;
+    }
+    @keyframes twinkle {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.3; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1 class="username">[Friend's Name]</h1>
+    <div class="scythe">⚔️</div>
+    <div class="links">
+      <a href="[Social Link 1]" class="link-btn">Instagram</a>
+      <a href="[Social Link 2]" class="link-btn">Twitter</a>
+      <a href="[Social Link 3]" class="link-btn">Discord</a>
+    </div>
+  </div>
+  <script>
+    // Add twinkling stars in the background
+    for (let i = 0; i < 50; i++) {
+      const star = document.createElement('div');
+      star.className = 'stars';
+      star.style.left = Math.random() * 100 + 'vw';
+      star.style.top = Math.random() * 100 + 'vh';
+      star.style.animationDelay = Math.random() * 3 + 's';
+      document.body.appendChild(star);
+    }
+  </script>
+</body>
+</html>
