@@ -123,6 +123,62 @@
       box-shadow: 0 0 8px rgba(255, 255, 255, 0.7), 0 0 4px #fff;
       filter: drop-shadow(0 0 3px rgba(255, 255, 255, 0.8));
     }
+    .audio-controls {
+      margin-top: 20px;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 10px;
+      padding: 10px 20px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      z-index: 2;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    }
+    .audio-controls button {
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 5px;
+      transition: all 0.3s ease;
+    }
+    .audio-controls button svg {
+      width: 24px;
+      height: 24px;
+    }
+    .audio-controls button:hover svg {
+      filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.8));
+      transform: scale(1.1);
+    }
+    .audio-controls input[type="range"] {
+      -webkit-appearance: none;
+      width: 120px;
+      height: 10px;
+      background: linear-gradient(to right, #fff 0%, #fff var(--volume), rgba(255, 255, 255, 0.3) var(--volume), rgba(255, 255, 255, 0.3) 100%);
+      border-radius: 5px;
+      outline: none;
+      transition: background 0.3s ease;
+    }
+    .audio-controls input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 18px;
+      height: 18px;
+      background: #fff;
+      border-radius: 50%;
+      cursor: pointer;
+      box-shadow: 0 0 8px rgba(255, 255, 255, 0.7);
+    }
+    .audio-controls input[type="range"]::-moz-range-thumb {
+      width: 18px;
+      height: 18px;
+      background: #fff;
+      border-radius: 50%;
+      cursor: pointer;
+      box-shadow: 0 0 8px rgba(255, 255, 255, 0.7);
+    }
+    .audio-controls input[type="range"]:hover {
+      background: linear-gradient(to right, #fff 0%, #fff var(--volume), rgba(255, 255, 255, 0.5) var(--volume), rgba(255, 255, 255, 0.5) 100%);
+    }
   </style>
 </head>
 <body>
@@ -142,6 +198,21 @@
       <a href="https://www.tiktok.com/@prxdbywhoz" class="link-btn"><img src="./instagram.png" alt="Instagram"></a>
       <a href="https://www.tiktok.com/@prxdbywhoz" class="link-btn"><img src="./tiktok.png" alt="TikTok"></a>
     </div>
+  </div>
+  <div class="audio-controls">
+    <button id="playPauseBtn" title="Play/Pause">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polygon points="5 3 19 12 5 21 5 3" fill="#333"></polygon>
+      </svg>
+    </button>
+    <input type="range" id="volumeSlider" min="0" max="1" step="0.01" value="0.3">
+    <button id="muteBtn" title="Mute/Unmute">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" fill="#333"></polygon>
+        <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+        <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+      </svg>
+    </button>
   </div>
   <audio id="backgroundMusic" loop volume="0.3">
     <source src="Radiohead - Everything In Its Right Place (Intro Only).mp3" type="audio/mpeg">
@@ -233,19 +304,90 @@
 
     animateStars();
 
-    // Ensure background music plays
+    // Audio control functionality
     const audio = document.getElementById('backgroundMusic');
+    const playPauseBtn = document.getElementById('playPauseBtn');
+    const volumeSlider = document.getElementById('volumeSlider');
+    const muteBtn = document.getElementById('muteBtn');
+    let isMuted = false;
+
+    // SVG icons for play, stop, unmute, mute
+    const playIcon = `
+      <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polygon points="5 3 19 12 5 21 5 3" fill="#333"></polygon>
+      </svg>`;
+    const stopIcon = `
+      <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="6" y="6" width="12" height="12" fill="#333"></rect>
+      </svg>`;
+    const unmuteIcon = `
+      <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" fill="#333"></polygon>
+        <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+        <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+      </svg>`;
+    const muteIcon = `
+      <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" fill="#333"></polygon>
+        <line x1="23" y1="9" x2="17" y2="15"></line>
+        <line x1="17" y1="9" x2="23" y2="15"></line>
+      </svg>`;
+
+    // Initialize audio and controls
     audio.volume = 0.3;
+    playPauseBtn.innerHTML = playIcon;
+    volumeSlider.style.setProperty('--volume', `${audio.volume * 100}%`);
+
+    // Attempt autoplay
     const playAudio = () => {
-      audio.play().catch(error => {
-        console.log('Autoplay failed:', error);
-        // Attempt to play on user interaction
-        document.addEventListener('click', () => {
-          audio.play();
-        }, { once: true });
-      });
+      if (audio.paused) {
+        audio.play().catch(error => {
+          console.log('Autoplay failed:', error);
+          // Rely on user interaction via play/pause button
+        });
+      }
     };
     window.addEventListener('load', playAudio);
+
+    playPauseBtn.addEventListener('click', () => {
+      if (audio.paused) {
+        audio.play().then(() => {
+          playPauseBtn.innerHTML = stopIcon;
+        }).catch(error => {
+          console.error('Play failed:', error);
+        });
+      } else {
+        audio.pause();
+        playPauseBtn.innerHTML = playIcon;
+      }
+    });
+
+    volumeSlider.addEventListener('input', () => {
+      audio.volume = volumeSlider.value;
+      volumeSlider.style.setProperty('--volume', `${audio.volume * 100}%`);
+      isMuted = audio.volume === 0;
+      muteBtn.innerHTML = isMuted ? muteIcon : unmuteIcon;
+    });
+
+    muteBtn.addEventListener('click', () => {
+      if (isMuted) {
+        audio.volume = volumeSlider.value || 0.3;
+        muteBtn.innerHTML = unmuteIcon;
+      } else {
+        audio.volume = 0;
+        muteBtn.innerHTML = muteIcon;
+      }
+      volumeSlider.style.setProperty('--volume', `${audio.volume * 100}%`);
+      isMuted = !isMuted;
+    });
+
+    // Update play/pause button state on audio events
+    audio.addEventListener('play', () => {
+      playPauseBtn.innerHTML = stopIcon;
+    });
+    audio.addEventListener('pause', () => {
+      playPauseBtn.innerHTML = playIcon;
+    });
   </script>
 <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9364d2889c38dd21',t:'MTc0NTY1NzMxOS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
