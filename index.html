@@ -128,16 +128,15 @@
       <div class="avatar"></div>
       <div class="status-text">
         <div class="main">vexedsinz</div>
-        <div class="sub">last seen now</div>
+        <div class="sub">last seen 1 hour ago</div>
       </div>
     </div>
     <div class="links">
-      <a href="https://discord.gg/skelt" class="link-btn">☺</a>
-      <a href="t.me/vexedsinz" class="link-btn">♡</a>
-      <a href="roblox.com/wsuhr" class="link-btn">♬</a>
+      <a href="https://discord.com" class="link-btn">☺</a>
+      <a href="https://instagram.com" class="link-btn">♡</a>
+      <a href="https://tiktok.com" class="link-btn">♬</a>
     </div>
   </div>
-  <div class W="corner-left"></div>
   <script>
     const canvas = document.getElementById('starCanvas');
     const ctx = canvas.getContext('2d');
@@ -164,7 +163,7 @@
       const centerY = rect.top + rect.height / 2;
       const mouseX = e.clientX - centerX;
       const mouseY = e.clientY - centerY;
-      const rotateX = (mouseY / rect.height) * -20;
+      const rotateX = (mouseY / rect.height) * -20; // Max 20 degrees tilt
       const rotateY = (mouseX / rect.width) * 20;
       container.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
     });
@@ -187,7 +186,7 @@
         orbitRadius: Math.random() * 20 + 10,
         speed: (Math.random() * 0.005 + 0.002) * (Math.random() < 0.5 ? 1 : -1),
         mouseInfluence: 0,
-        color: Math.random() < 0.3 ? 'rgba(255, 0, 0, 0.8)' : 'rgba(255, 255, 255, 0.8)
+        color: Math.random() < 0.3 ? 'rgba(255, 0, 0, 0.8)' : 'rgba(255, 255, 255, 0.8)' // 30% chance for red
       });
     }
 
