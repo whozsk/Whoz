@@ -16,13 +16,11 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      background: #111;
+      background: #000;
       font-family: 'Milkyway', monospace;
       color: #fff;
       overflow: hidden;
       position: relative;
-      background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAJElEQVQYV2NkYGD4z8DAwMgwIhgMDAYz///f4DBzMyMjAwAANe/D5W3cG4AAAAASUVORK5CYII=');
-      background-repeat: repeat;
     }
     canvas {
       position: absolute;
@@ -101,7 +99,7 @@
       margin-top: 25px;
     }
     .link-btn {
-      font-size: 2.2em;
+      font-size: 2.4em;
       color: #fff;
       text-decoration: none;
       transition: all 0.3s ease;
@@ -111,28 +109,19 @@
     }
     .link-btn:hover {
       color: #ddd;
-      text-shadow: 0 0 5px #fff;
       transform: scale(1.1);
     }
     .link-btn img {
-      width: 38px;
-      height: 38px;
+      width: 42px;
+      height: 42px;
       border-radius: 8px;
       border: 2px solid #fff;
       box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
       object-fit: contain;
     }
     .link-btn:hover img {
-      box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
-    }
-    .corner-left {
-      position: absolute;
-      bottom: 10px;
-      left: 10px;
-      font-size: 0.8em;
-      color: #fff;
-      opacity: 0.7;
-      z-index: 2;
+      box-shadow: 0 0 8px rgba(255, 255, 255, 0.7), 0 0 4px #fff;
+      filter: drop-shadow(0 0 3px rgba(255, 255, 255, 0.8));
     }
   </style>
 </head>
@@ -149,12 +138,14 @@
       </div>
     </div>
     <div class="links">
-      <a href="https://discord.com" class="link-btn"><img src="./discord.png" alt="Discord"></a>
-      <a href="https://instagram.com" class="link-btn"><img src="./instagram.png" alt="Instagram"></a>
-      <a href="https://tiktok.com" class="link-btn"><img src="./tiktok.png" alt="TikTok"></a>
+      <a href="https://discordapp.com/users/1278553403856912442" class="link-btn"><img src="./discord.png" alt="Discord"></a>
+      <a href="https://www.tiktok.com/@prxdbywhoz" class="link-btn"><img src="./instagram.png" alt="Instagram"></a>
+      <a href="https://www.tiktok.com/@prxdbywhoz" class="link-btn"><img src="./tiktok.png" alt="TikTok"></a>
     </div>
   </div>
-  <div class="corner-left">0/254</div>
+  <audio id="backgroundMusic" loop volume="0.3">
+    <source src="Radiohead - Everything In Its Right Place (Intro Only).mp3" type="audio/mpeg">
+  </audio>
   <script>
     const canvas = document.getElementById('starCanvas');
     const ctx = canvas.getContext('2d');
@@ -241,6 +232,20 @@
     }
 
     animateStars();
+
+    // Ensure background music plays
+    const audio = document.getElementById('backgroundMusic');
+    audio.volume = 0.3;
+    const playAudio = () => {
+      audio.play().catch(error => {
+        console.log('Autoplay failed:', error);
+        // Attempt to play on user interaction
+        document.addEventListener('click', () => {
+          audio.play();
+        }, { once: true });
+      });
+    };
+    window.addEventListener('load', playAudio);
   </script>
 <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9364d2889c38dd21',t:'MTc0NTY1NzMxOS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
