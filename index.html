@@ -21,6 +21,7 @@
       color: #fff;
       overflow: hidden;
       position: relative;
+      cursor: url('./cursor.png') 65 65, auto;
     }
     canvas#starCanvas {
       position: absolute;
@@ -116,7 +117,7 @@
       background: rgba(255, 255, 255, 0.05);
       border-radius: 20px;
       padding: 0;
-      border: 1px solid rgba(255, 255, 255, 0.2);
+      border: 1px solid rgba(255, 255, 634, 0.2);
       box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
       max-width: 400px;
       width: 90%;
@@ -271,7 +272,7 @@
       color: #fff;
       font-size: 2em;
       text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-      cursor: pointer;
+      cursor: url('./cursor.png') 16 16, pointer;
       z-index: 100;
       transition: opacity 0.5s ease;
     }
@@ -331,7 +332,7 @@
       height: 18px;
       background: #fff;
       border-radius: 50%;
-      cursor: pointer;
+      cursor: url('./cursor.png') 16 16, pointer;
       box-shadow: 0 0 8px rgba(255, 255, 255, 0.7);
     }
     .audio-controls input[type="range"]::-moz-range-thumb {
@@ -339,7 +340,7 @@
       height: 18px;
       background: #fff;
       border-radius: 50%;
-      cursor: pointer;
+      cursor: url('./cursor.png') 16 16, pointer;
       box-shadow: 0 0 8px rgba(255, 255, 255, 0.7);
     }
     .audio-controls input[type="range"]:hover {
@@ -380,8 +381,8 @@
     <div class="server-info">
       <div class="server-avatar"></div>
       <div class="server-text">
-        <div class="server-name">/skelt REVAMP</div>
-        <div class="server-sub">sybau and join ts server u pmo</div>
+        <div class="server-name">Join Our Community</div>
+        <div class="server-sub">Connect with like-minded people!</div>
       </div>
     </div>
     <a href="https://discord.gg/hkfRrEZczm" class="join-btn">Join Server</a>
@@ -393,7 +394,6 @@
     <source src="./Radiohead - Everything In Its Right Place (Intro Only).mp3" type="audio/mpeg">
   </audio>
   <script>
-    // Canvas star animation
     const starCanvas = document.getElementById('starCanvas');
     const starCtx = starCanvas.getContext('2d');
     let mouseX = 0;
@@ -402,7 +402,6 @@
     starCanvas.width = window.innerWidth;
     starCanvas.height = window.innerHeight;
 
-    // Trail canvas for mouse effect
     const trailCanvas = document.getElementById('trailCanvas');
     const trailCtx = trailCanvas.getContext('2d');
     trailCanvas.width = window.innerWidth;
@@ -422,7 +421,6 @@
       mouseY = e.clientY;
     });
 
-    // 3D tilt for main container
     const container = document.querySelector('.container');
     container.addEventListener('mousemove', (e) => {
       const rect = container.getBoundingClientRect();
@@ -439,7 +437,6 @@
       container.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg)';
     });
 
-    // 3D tilt for profile container
     const profile = document.querySelector('.profile');
     profile.addEventListener('mousemove', (e) => {
       const rect = profile.getBoundingClientRect();
@@ -456,7 +453,6 @@
       profile.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg)';
     });
 
-    // 3D tilt for server invite container
     const serverInvite = document.querySelector('.server-invite');
     serverInvite.addEventListener('mousemove', (e) => {
       const rect = serverInvite.getBoundingClientRect();
@@ -473,7 +469,6 @@
       serverInvite.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg)';
     });
 
-    // 3D tilt for audio controls
     const audioControls = document.querySelector('.audio-controls');
     audioControls.addEventListener('mousemove', (e) => {
       const rect = audioControls.getBoundingClientRect();
@@ -490,7 +485,6 @@
       audioControls.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg)';
     });
 
-    // Click to Enter fade-out
     const clickToEnter = document.querySelector('.click-to-enter');
     clickToEnter.addEventListener('click', () => {
       clickToEnter.classList.add('fading');
@@ -499,7 +493,6 @@
       }, 500);
     });
 
-    // Grain particles animation
     const grainCanvas = document.getElementById('grainCanvas');
     const grainCtx = grainCanvas.getContext('2d');
     grainCanvas.width = window.innerWidth;
@@ -544,7 +537,6 @@
 
     animateGrains();
 
-    // Mouse trail animation
     const trailDots = [];
 
     document.addEventListener('mousemove', (e) => {
@@ -637,7 +629,6 @@
 
     animateStars();
 
-    // Audio control functionality
     const audio = document.getElementById('backgroundMusic');
     const volumeSlider = document.getElementById('volumeSlider');
 
