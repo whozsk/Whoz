@@ -348,6 +348,58 @@
     .audio-controls input[type="range"]:hover {
       background: linear-gradient(to right, #fff 0%, #fff var(--volume), rgba(255, 255, 255, 0.5) var(--volume), rgba(255, 255, 255, 0.5) 100%);
     }
+    .info-icon {
+      position: fixed;
+      bottom: 20px;
+      left: 20px;
+      width: 40px;
+      height: 40px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 2px solid rgba(255, 255, 255, 0.2);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5em;
+      color: #fff;
+      text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+      cursor: url('./cursor.png') 65 65, pointer;
+      z-index: 3;
+      transition: all 0.3s ease;
+      transform-style: preserve-3d;
+      line-height: 1;
+    }
+    .info-icon:hover {
+      transform: scale(1.1);
+      box-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
+      background: rgba(255, 255, 255, 0.1);
+    }
+    .info-tooltip {
+      position: absolute;
+      bottom: 50px;
+      left: 0;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 10px;
+      padding: 6px 14px;
+      color: #fff;
+      font-size: 0.8em;
+      display: none;
+      opacity: 0; /* Start hidden for fade-in */
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+      z-index: 4;
+      white-space: pre-line;
+      transition: opacity 0.3s ease; /* Smooth fade-in/out */
+      width: 160px;
+      line-height: 1.1;
+      display: flex; /* Flexbox for centering */
+      align-items: center; /* Vertical centering */
+      justify-content: center; /* Horizontal centering */
+    }
+    .info-icon:hover .info-tooltip {
+      display: flex; /* Show with flexbox */
+      opacity: 1; /* Fade in */
+    }
   </style>
 </head>
 <body>
@@ -391,6 +443,13 @@
   </div>
   <div class="audio-controls">
     <input type="range" id="volumeSlider" min="0" max="1" step="0.01" value="0.3">
+  </div>
+  <div class="info-icon">
+    ?
+    <div class="info-tooltip">
+      made by: vd4z
+owned by: whoz
+    </div>
   </div>
   <audio id="backgroundMusic" loop volume="0.3" autoplay>
     <source src="./Radiohead - Everything In Its Right Place (Intro Only).mp3" type="audio/mpeg">
@@ -663,6 +722,23 @@
       audio.volume = volumeSlider.value;
       volumeSlider.style.setProperty('--volume', `${audio.volume * 100}%`);
     });
+
+    const infoIcon = document.querySelector('.info-icon');
+    infoIcon.addEventListener('mousemove', (e) => {
+      const rect = infoIcon.getBoundingClientRect();
+      const centerX = rect.left + rect.width / 2;
+      const centerY = rect.top + rect.height / 2;
+      const mouseX = e.clientX - centerX;
+      const mouseY = e.clientY - centerY;
+      const rotateX = (mouseY / rect.height) * -20;
+      const rotateY = (mouseX / rect.width) * 20;
+      infoIcon.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+    });
+
+    infoIcon.addEventListener('mouseleave', () => {
+      infoIcon.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg)';
+    });
   </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'93664b3319c37bdb',t:'MTc0NTY3Mjc0OC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script>
 </body>
 </html>
