@@ -298,14 +298,13 @@ document.addEventListener('keypress', (e) => {
 });
 
 async function validateKey(key) {
-    const response = await fetch('http://localhost:3000/api/validate-key', {
+    const response = await fetch('https://whoz-backend.onrender.com/api/validate-key', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ key })
     });
     return response.json();
   }
-
   try {
     const response = await fetch('http://localhost:3000/api/validate-key', {
       method: 'POST',
