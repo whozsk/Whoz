@@ -4,6 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>whoz</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <style>
     @font-face {
       font-family: 'Milkyway';
@@ -23,6 +25,9 @@
       position: relative;
       cursor: url('./cursor.png') 65 65, auto;
     }
+    body.disintegrated {
+      cursor: default;
+    }
     canvas#starCanvas {
       position: absolute;
       top: 0;
@@ -30,6 +35,7 @@
       width: 100%;
       height: 100%;
       z-index: 1;
+      opacity: 1;
     }
     canvas#trailCanvas {
       position: absolute;
@@ -38,6 +44,18 @@
       width: 100%;
       height: 100%;
       z-index: 2;
+      opacity: 1;
+      transition: opacity 1s ease;
+    }
+    canvas#grainCanvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 3;
+      opacity: 1;
+      transition: opacity 1s ease;
     }
     .container {
       text-align: center;
@@ -49,7 +67,7 @@
       box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
       max-width: 400px;
       width: 90%;
-      z-index: 3;
+      z-index: 4;
       transform-style: preserve-3d;
       transition: transform 0.2s ease;
     }
@@ -122,7 +140,7 @@
       box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
       max-width: 400px;
       width: 90%;
-      z-index: 3;
+      z-index: 4;
       transform-style: preserve-3d;
       transition: transform 0.2s ease;
     }
@@ -136,7 +154,7 @@
       box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
       max-width: 400px;
       width: 90%;
-      z-index: 3;
+      z-index: 4;
       transform-style: preserve-3d;
       transition: transform 0.2s ease;
       text-align: left;
@@ -314,10 +332,11 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      z-index: 3;
+      z-index: 1001;
       box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
       transform-style: preserve-3d;
-      transition: transform 0.2s ease;
+      transition: transform 0.2s ease, opacity 1s ease;
+      opacity: 1;
     }
     .audio-controls input[type="range"] {
       -webkit-appearance: none;
@@ -364,7 +383,7 @@
       color: #fff;
       text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
       cursor: url('./cursor.png') 65 65, pointer;
-      z-index: 3;
+      z-index: 4;
       transition: all 0.3s ease;
       line-height: 1;
     }
@@ -385,7 +404,7 @@
       font-size: 1em;
       opacity: 0;
       box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-      z-index: 4;
+      z-index: 5;
       white-space: pre-line;
       transition: opacity 0.3s ease;
       width: 160px;
@@ -398,59 +417,261 @@
     .info-icon:hover + .info-tooltip {
       opacity: 1;
     }
+    .secret-popup {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: rgba(0, 0, 0, 1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 10px;
+      padding: 20px;
+      color: #fff;
+      z-index: 1000;
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+      width: 250px;
+    }
+    .secret-popup input {
+      margin: 10px 0;
+      padding: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      border-radius: 5px;
+      background: rgba(255, 255, 255, 0.1);
+      color: #fff;
+      outline: none;
+      font-family: 'Milkyway', monospace;
+    }
+    .secret-popup button {
+      padding: 8px 16px;
+      background: linear-gradient(45deg, #7289da, #5865f2);
+      border: none;
+      border-radius: 5px;
+      color: #fff;
+      cursor: url('./cursor.png') 65 65, pointer;
+      transition: all 0.3s ease;
+      font-family: 'Milkyway', monospace;
+    }
+    .secret-popup button:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
+    }
+    /* New Panel Styles */
+    #new-panel {
+      display: none;
+      opacity: 0;
+      width: 95%;
+      max-width: 1200px;
+      height: 90vh;
+      background: rgba(26, 26, 26, 0.4);
+      backdrop-filter: blur(0.4px);
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+      overflow: hidden;
+      font-family: 'Inter', sans-serif;
+      color: #fff;
+      transition: opacity 1s ease;
+      z-index: 1000;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      margin: 0;
+    }
+    .sidebar {
+      width: 280px;
+      background: rgba(17, 17, 17, 0.7);
+      backdrop-filter: blur(0.4px);
+      padding: 20px 0;
+      border-right: 1px solid rgba(51, 51, 51, 0.7);
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .sidebar-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 20px;
+      color: #ccc;
+      text-decoration: none;
+      font-size: 1rem;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      border-radius: 8px;
+      margin: 0 10px;
+    }
+    .sidebar-item:hover {
+      background: rgba(34, 34, 34, 0.7);
+      color: #fff;
+      transform: translateX(5px);
+    }
+    .sidebar-item i {
+      font-size: 1.2rem;
+    }
+    .main-content {
+      flex: 1;
+      padding: 30px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      background: rgba(26, 26, 26, 0.7);
+      backdrop-filter: blur(0.4px);
+    }
+    .main-content h1 {
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 20px;
+    }
+    .main-content p {
+      font-size: 1rem;
+      color: #aaa;
+      max-width: 600px;
+      text-align: center;
+      line-height: 1.6;
+    }
   </style>
 </head>
 <body>
-  <div class="click-to-enter">
-    <canvas id="grainCanvas"></canvas>
-    Click to Enter
-  </div>
   <canvas id="starCanvas"></canvas>
-  <canvas id="trailCanvas"></canvas>
-  <div class="container">
-    <div class="symbol">🜏</div>
-    <h1 class="username">♱Whozˢᵏᵉˡᵗ</h1>
-    <div class="secondary-username">vexedsinz</div>
-    <div class="links">
-      <a href="https://discordapp.com/users/1278553403856912442" class="link-btn"><img src="./discord.png" alt="Discord"></a>
-      <a href="https://t.me/vexedsinz" class="link-btn"><img src="./telegram.png" alt="Telegram"></a>
-      <a href="https://www.tiktok.com/@prxdbywhoz" class="link-btn"><img src="./tiktok.png" alt="TikTok"></a>
-    </div>
-  </div>
-  <div class="profile">
-    <div class="status">
-      <div class="banner"></div>
-      <div class="avatar"></div>
-      <div class="status-text">
-        <div class="main">♱Whozˢᵏᵉˡᵗ</div>
-        <div class="user">vexedsinz</div>
-        <div class="sub">last seen recently</div>
+  <div id="disintegrate-all" data-dis-type="simultaneous">
+    <canvas id="trailCanvas"></canvas>
+    <canvas id="grainCanvas"></canvas>
+    <div id="content">
+      <div class="click-to-enter">
+        Click to Enter
+      </div>
+      <div class="container">
+        <div class="symbol">🜏</div>
+        <h1 class="username">♱Whozˢᵏᵉˡᵗ</h1>
+        <div class="secondary-username">vexedsinz</div>
+        <div class="links">
+          <a href="https://discordapp.com/users/1278553403856912442" class="link-btn"><img src="./discord.png" alt="Discord"></a>
+          <a href="https://t.me/vexedsinz" class="link-btn"><img src="./telegram.png" alt="Telegram"></a>
+          <a href="https://www.tiktok.com/@prxdbywhoz" class="link-btn"><img src="./tiktok.png" alt="TikTok"></a>
+        </div>
+      </div>
+      <div class="profile">
+        <div class="status">
+          <div class="banner"></div>
+          <div class="avatar"></div>
+          <div class="status-text">
+            <div class="main">♱Whozˢᵏᵉˡᵗ</div>
+            <div class="user">vexedsinz</div>
+            <div class="sub">last seen recently</div>
+          </div>
+        </div>
+      </div>
+      <div class="server-invite">
+        <div class="banner"></div>
+        <div class="server-info">
+          <div class="server-avatar"></div>
+          <div class="server-text">
+            <div class="server-name">Join Our Community</div>
+            <div class="server-sub">Sybau and join Ts server now or yu pmo</div>
+          </div>
+        </div>
+        <a href="https://discord.gg/hkfRrEZczm" class="join-btn">Join Server</a>
+      </div>
+      <div class="info-icon">?</div>
+      <div class="info-tooltip">
+        made by: vd4z
+        owned by: whoz
       </div>
     </div>
-  </div>
-  <div class="server-invite">
-    <div class="banner"></div>
-    <div class="server-info">
-      <div class="server-avatar"></div>
-      <div class="server-text">
-        <div class="server-name">Join Our Community</div>
-        <div class="server-sub">Sybau and join Ts server now or yu pmo</div>
-      </div>
+    <div class="secret-popup" id="secretPopup">
+      <h3>Enter Secret Key</h3>
+      <input type="text" id="secretKeyInput" placeholder="Key">
+      <button onclick="checkSecretKey()">Submit</button>
     </div>
-    <a href="https://discord.gg/hkfRrEZczm" class="join-btn">Join Server</a>
+  </div>
+  <div id="new-panel">
+    <div class="sidebar">
+      <a href="#" class="sidebar-item"><i class="fas fa-home"></i> Home</a>
+      <a href="#" class="sidebar-item"><i class="fas fa-user"></i> Test</a>
+      <a href="#" class="sidebar-item"><i class="fas fa-users"></i> Test</a>
+      <a href="#" class="sidebar-item"><i class="fas fa-cog"></i> Test</a>
+    </div>
+    <div class="main-content">
+      <h1>Skelt Panel</h1>
+      <p>
+        ts best panel don't pmo (pay me my 20$ whoz pls)
+      </p>
+    </div>
   </div>
   <div class="audio-controls">
     <input type="range" id="volumeSlider" min="0" max="1" step="0.01" value="0.3">
   </div>
-  <div class="info-icon">?</div>
-  <div class="info-tooltip">
-    made by: vd4z
-owned by: whoz
-  </div>
   <audio id="backgroundMusic" loop volume="0.3" autoplay>
     <source src="./Radiohead - Everything In Its Right Place (Intro Only).mp3" type="audio/mpeg">
   </audio>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script src="./disintegrate.js"></script>
   <script>
+    let isDisintegrating = false;
+
+    // Secret Key Function
+    function checkSecretKey() {
+      const secretKeyInput = document.getElementById('secretKeyInput');
+      const secretPopup = document.getElementById('secretPopup');
+      const secretKey = 'sybau';
+      if (secretKeyInput.value.toLowerCase() === secretKey) {
+        console.log('Secret key correct, initiating disintegration');
+        secretPopup.style.display = 'none';
+        if (typeof disintegrate !== 'undefined') {
+          isDisintegrating = true;
+          const content = document.getElementById('disintegrate-all');
+          const disObj = disintegrate.getDisObj(content);
+          disintegrate.createSimultaneousParticles(disObj);
+          content.style.visibility = 'hidden';
+          document.body.classList.add('disintegrated');
+          // Hide elements (except starCanvas)
+          const newPanel = document.getElementById('new-panel');
+          const trailCanvas = document.getElementById('trailCanvas');
+          const grainCanvas = document.getElementById('grainCanvas');
+          const audioControls = document.querySelector('.audio-controls');
+          newPanel.style.display = 'none';
+          newPanel.style.opacity = '0';
+          trailCanvas.style.opacity = '0';
+          grainCanvas.style.opacity = '0';
+          audioControls.style.opacity = '0';
+          // Fade in elements
+          setTimeout(() => {
+            console.log('Fading in panel, trail, grains, and audio controls');
+            newPanel.style.display = 'flex';
+            trailCanvas.style.opacity = '1';
+            grainCanvas.style.opacity = '1';
+            audioControls.style.opacity = '1';
+            setTimeout(() => {
+              newPanel.style.opacity = '1';
+              console.log('Fade-in complete');
+            }, 50);
+          }, 500);
+        } else {
+          secretKeyInput.value = '';
+          secretKeyInput.placeholder = 'Effect unavailable!';
+          console.warn('Disintegrate.js not loaded. Thanos snap effect unavailable.');
+        }
+      } else {
+        secretKeyInput.value = '';
+        secretKeyInput.placeholder = 'Wrong Key!';
+      }
+    }
+
+    // Initialize Disintegrate.js
+    document.addEventListener('DOMContentLoaded', () => {
+      if (typeof disintegrate === 'undefined') {
+        console.warn('Failed to load disintegrate.js. Ensure ./disintegrate.js is in the project directory.');
+        return;
+      }
+      disintegrate.init();
+    });
+
     const starCanvas = document.getElementById('starCanvas');
     const starCtx = starCanvas.getContext('2d');
     let mouseX = 0;
@@ -464,6 +685,11 @@ owned by: whoz
     trailCanvas.width = window.innerWidth;
     trailCanvas.height = window.innerHeight;
 
+    const grainCanvas = document.getElementById('grainCanvas');
+    const grainCtx = grainCanvas.getContext('2d');
+    grainCanvas.width = window.innerWidth;
+    grainCanvas.height = window.innerHeight;
+
     window.addEventListener('resize', () => {
       starCanvas.width = window.innerWidth;
       starCanvas.height = window.innerHeight;
@@ -473,10 +699,12 @@ owned by: whoz
       trailCanvas.height = window.innerHeight;
     });
 
-    document.addEventListener('mousemove', (e) => {
+    // Mouse movement for stars and trail dots
+    function handleMouseMove(e) {
       mouseX = e.clientX;
       mouseY = e.clientY;
-    });
+    }
+    document.addEventListener('mousemove', handleMouseMove);
 
     const container = document.querySelector('.container');
     container.addEventListener('mousemove', (e) => {
@@ -550,11 +778,6 @@ owned by: whoz
       }, 500);
     });
 
-    const grainCanvas = document.getElementById('grainCanvas');
-    const grainCtx = grainCanvas.getContext('2d');
-    grainCanvas.width = window.innerWidth;
-    grainCanvas.height = window.innerHeight;
-
     const grains = [];
     const numGrains = 200;
 
@@ -570,6 +793,7 @@ owned by: whoz
     }
 
     function animateGrains() {
+      console.log('Animating grains');
       grainCtx.clearRect(0, 0, grainCanvas.width, grainCanvas.height);
 
       grains.forEach(grain => {
@@ -587,16 +811,14 @@ owned by: whoz
         grainCtx.fill();
       });
 
-      if (clickToEnter.parentNode) {
-        requestAnimationFrame(animateGrains);
-      }
+      requestAnimationFrame(animateGrains);
     }
 
     animateGrains();
 
     const trailDots = [];
 
-    document.addEventListener('mousemove', (e) => {
+    function addTrailDots(e) {
       for (let i = 0; i < 2; i++) {
         trailDots.push({
           x: e.clientX,
@@ -608,9 +830,12 @@ owned by: whoz
           color: Math.random() < 0.5 ? 'rgba(255, 255, 255, ' : 'rgba(255, 0, 0, '
         });
       }
-    });
+    }
+
+    document.addEventListener('mousemove', addTrailDots);
 
     function animateTrail() {
+      console.log('Animating trail dots');
       trailCtx.clearRect(0, 0, trailCanvas.width, trailCanvas.height);
 
       trailDots.forEach((dot, index) => {
@@ -653,6 +878,7 @@ owned by: whoz
     }
 
     function animateStars() {
+      console.log('Animating stars');
       starCtx.clearRect(0, 0, starCanvas.width, starCanvas.height);
 
       stars.forEach(star => {
@@ -670,7 +896,7 @@ owned by: whoz
 
         if (star.x < 0) star.x = starCanvas.width;
         if (star.x > starCanvas.width) star.x = 0;
-        if (star.y < 0) star.y = starCanvas.height估
+        if (star.y < 0) star.y = starCanvas.height;
         if (star.y > starCanvas.height) star.y = 0;
 
         starCtx.beginPath();
@@ -693,30 +919,53 @@ owned by: whoz
     volumeSlider.style.setProperty('--volume', `${audio.volume * 100}%`);
 
     const playAudio = () => {
-      if (audio.paused) {
-        audio.play().then(() => {
-          console.log('Autoplay successful');
-        }).catch(error => {
-          console.log('Autoplay failed:', error);
-          const tryPlayOnInteraction = () => {
-            audio.play().then(() => {
-              console.log('Interaction play successful');
-              document.removeEventListener('click', tryPlayOnInteraction);
-              document.removeEventListener('touchstart', tryPlayOnInteraction);
-              document.removeEventListener('keydown', tryPlayOnInteraction);
-            }).catch(err => console.log('Interaction play failed:', err));
-          };
-          document.addEventListener('click', tryPlayOnInteraction, { once: true });
-          document.addEventListener('touchstart', tryPlayOnInteraction, { once: true });
-          document.addEventListener('keydown', tryPlayOnInteraction, { once: true });
-        });
-      }
+      if (!audio.paused) return;
+      audio.play().catch(() => {
+        const tryPlayOnInteraction = () => {
+          audio.play().then(() => {
+            document.removeEventListener('click', tryPlayOnInteraction);
+            document.removeEventListener('touchstart', tryPlayOnInteraction);
+            document.removeEventListener('keydown', tryPlayOnInteraction);
+          }).catch(() => {});
+        };
+        document.addEventListener('click', tryPlayOnInteraction, { once: true });
+        document.addEventListener('touchstart', tryPlayOnInteraction, { once: true });
+        document.addEventListener('keydown', tryPlayOnInteraction, { once: true });
+      });
     };
+
     window.addEventListener('load', playAudio);
 
     volumeSlider.addEventListener('input', () => {
       audio.volume = volumeSlider.value;
       volumeSlider.style.setProperty('--volume', `${audio.volume * 100}%`);
+    });
+
+    // Secret Key Feature
+    const infoIcon = document.querySelector('.info-icon');
+    const secretPopup = document.getElementById('secretPopup');
+    const secretKeyInput = document.getElementById('secretKeyInput');
+    let typedString = '';
+    let isInfoIconHovered = false;
+
+    infoIcon.addEventListener('mouseenter', () => {
+      isInfoIconHovered = true;
+    });
+
+    infoIcon.addEventListener('mouseleave', () => {
+      isInfoIconHovered = false;
+      typedString = '';
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (isInfoIconHovered && e.key.length === 1) {
+        typedString += e.key.toLowerCase();
+        if (typedString.endsWith('skelt')) {
+          secretPopup.style.display = 'flex';
+          secretKeyInput.focus();
+          typedString = '';
+        }
+      }
     });
   </script>
 </body>
