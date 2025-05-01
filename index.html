@@ -615,7 +615,6 @@
   <script>
     let isDisintegrating = false;
 
-    // Secret Key Function
     function checkSecretKey() {
       const secretKeyInput = document.getElementById('secretKeyInput');
       const secretPopup = document.getElementById('secretPopup');
@@ -630,7 +629,6 @@
           disintegrate.createSimultaneousParticles(disObj);
           content.style.visibility = 'hidden';
           document.body.classList.add('disintegrated');
-          // Hide elements (except starCanvas)
           const newPanel = document.getElementById('new-panel');
           const trailCanvas = document.getElementById('trailCanvas');
           const grainCanvas = document.getElementById('grainCanvas');
@@ -640,7 +638,7 @@
           trailCanvas.style.opacity = '0';
           grainCanvas.style.opacity = '0';
           audioControls.style.opacity = '0';
-          // Fade in elements
+          
           setTimeout(() => {
             console.log('Fading in panel, trail, grains, and audio controls');
             newPanel.style.display = 'flex';
@@ -663,7 +661,6 @@
       }
     }
 
-    // Initialize Disintegrate.js
     document.addEventListener('DOMContentLoaded', () => {
       if (typeof disintegrate === 'undefined') {
         console.warn('Failed to load disintegrate.js. Ensure ./disintegrate.js is in the project directory.');
@@ -699,7 +696,6 @@
       trailCanvas.height = window.innerHeight;
     });
 
-    // Mouse movement for stars and trail dots
     function handleMouseMove(e) {
       mouseX = e.clientX;
       mouseY = e.clientY;
@@ -941,7 +937,6 @@
       volumeSlider.style.setProperty('--volume', `${audio.volume * 100}%`);
     });
 
-    // Secret Key Feature
     const infoIcon = document.querySelector('.info-icon');
     const secretPopup = document.getElementById('secretPopup');
     const secretKeyInput = document.getElementById('secretKeyInput');
