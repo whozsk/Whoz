@@ -212,86 +212,6 @@
       font-size: 0.85em;
       color: #bbb;
     }
-    .server-invite {
-      margin-top: 20px;
-      position: relative;
-      background: rgba(255, 255, 255, 0.05);
-      border-radius: 20px;
-      padding: 20px;
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
-      max-width: 400px;
-      width: 90%;
-      z-index: 4;
-      transform-style: preserve-3d;
-      transition: transform 0.2s ease;
-      text-align: left;
-    }
-    .server-invite .banner {
-      position: absolute;
-      top: -20px;
-      left: -20px;
-      width: calc(100% + 40px);
-      height: calc(100% + 40px);
-      background-image: url('./serverbanner.gif');
-      background-size: cover;
-      background-position: center;
-      border-radius: 15px;
-      z-index: -1;
-      opacity: 0.7;
-    }
-    .server-invite .server-avatar {
-      width: 50px;
-      height: 50px;
-      background-image: url('./serverpfp.gif');
-      background-size: cover;
-      background-position: center;
-      border-radius: 50%;
-      border: 2px solid #fff;
-      box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
-      position: relative;
-      z-index: 1;
-    }
-    .server-invite .server-info {
-      display: flex;
-      align-items: center;
-      gap: 15px;
-    }
-    .server-invite .server-text {
-      display: flex;
-      flex-direction: column;
-      gap: 5px;
-      z-index: 1;
-    }
-    .server-invite .server-name {
-      font-size: 1.2em;
-      font-weight: 700;
-      color: #fff;
-      text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
-    }
-    .server-invite .server-sub {
-      font-size: 0.9em;
-      color: #bbb;
-    }
-    .server-invite .join-btn {
-      margin-top: 15px;
-      display: inline-block;
-      padding: 10px 20px;
-      background: linear-gradient(45deg, #7289da, #5865f2);
-      border-radius: 10px;
-      color: #fff;
-      font-size: 1em;
-      text-decoration: none;
-      text-align: center;
-      transition: all 0.3s ease;
-      box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
-      cursor: url('./cursor.png') 65 65, pointer;
-    }
-    .server-invite .join-btn:hover {
-      transform: scale(1.05);
-      box-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
-      background: linear-gradient(45deg, #5865f2, #7289da);
-    }
     .click-to-enter {
       position: fixed;
       top: 0;
@@ -612,7 +532,7 @@
         <div class="secondary-username">insidingforfeds</div>
         <div class="links">
           <a href="https://discordapp.com/users/1278553403856912442" class="link-btn"><img src="./discord.png" alt="Discord"></a>
-          <a href="https://t.me/vexedsinz" class="link-btn"><img src="./telegram.png" alt="Telegram"></a>
+          <a href="https://t.me/insidingforfeds" class="link-btn"><img src="./telegram.png" alt="Telegram"></a>
           <a href="https://www.tiktok.com/@prxdbywhoz" class="link-btn"><img src="./tiktok.png" alt="TikTok"></a>
         </div>
       </div>
@@ -622,21 +542,10 @@
           <div class="avatar"></div>
           <div class="status-text">
             <div class="main">♱Whozˢᵏᵉˡᵗ</div>
-            <div class="user">vexedsinz</div>
+            <div class="user">insidingforfeds</div>
             <div class="sub">last seen recently</div>
           </div>
         </div>
-      </div>
-      <div class="server-invite">
-        <div class="banner"></div>
-        <div class="server-info">
-          <div class="server-avatar"></div>
-          <div class="server-text">
-            <div class="server-name">Join Our Community</div>
-            <div class="server-sub">Sybau and join Ts server now or yu pmo</div>
-          </div>
-        </div>
-        <a href="https://discord.gg/hkfRrEZczm" class="join-btn">Join Server</a>
       </div>
       <div class="info-icon">?</div>
       <div class="info-tooltip">
@@ -736,9 +645,7 @@
 
     // Initialize Disintegrate.js
     document.addEventListener('DOMContentLoaded', () => {
-      if (
-
-        typeof disintegrate === 'undefined') {
+      if (typeof disintegrate === 'undefined') {
         console.warn('Failed to load disintegrate.js. Ensure ./disintegrate.js is in the project directory.');
         return;
       }
@@ -837,22 +744,6 @@
 
     profile.addEventListener('mouseleave', () => {
       profile.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg)';
-    });
-
-    const serverInvite = document.querySelector('.server-invite');
-    serverInvite.addEventListener('mousemove', (e) => {
-      const rect = serverInvite.getBoundingClientRect();
-      const centerX = rect.left + rect.width / 2;
-      const centerY = rect.top + rect.height / 2;
-      const mouseX = e.clientX - centerX;
-      const mouseY = e.clientY - centerY;
-      const rotateX = (mouseY / rect.height) * -20;
-      const rotateY = (mouseX / rect.width) * 20;
-      serverInvite.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
-    });
-
-    serverInvite.addEventListener('mouseleave', () => {
-      serverInvite.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg)';
     });
 
     const audioControls = document.querySelector('.audio-controls');
@@ -1069,5 +960,5 @@
       }
     });
   </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9396483fe9846743',t:'MTc0NjE3NTk0My4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</body>
 </html>
