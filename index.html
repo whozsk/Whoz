@@ -4,78 +4,7 @@
   <meta charset="UTF-8" />
   <title>FedImpact</title>
   <link href="https://fonts.googleapis.com/css?family=Sour+Gummy" rel="stylesheet" />
-  <style>
-    /* Background GIF on body */
-    body {
-      margin: 0;
-      height: 100vh;
-      background: black url('https://cdn.discordapp.com/attachments/1376485565934993420/1385220931282272438/vzSXcer.gif?ex=6855efc6&is=68549e46&hm=7f6f4b0bcf1c38bc17fc04c280b9b8f374f16578a01bcd8594184084e253c2b2&') no-repeat center center fixed;
-      background-size: cover;
-      font-family: 'Sour Gummy', monospace;
-      color: rgb(0, 0, 0);
-      overflow: hidden;
-      text-align: center;
-    }
-
-    /* Overlay with button */
-    #overlay {
-      position: fixed;
-      inset: 0;
-      background-color: rgba(0,0,0,0.5);
-      backdrop-filter: blur(10px);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      z-index: 1000;
-    }
-
-    #enterBtn {
-      padding: 20px 40px;
-      font-size: 1.5em;
-      background: white;
-      color: black;
-      border: none;
-      border-radius: 10px;
-      cursor: pointer;
-      z-index: 1001;
-    }
-
-    /* Content container that gets blurred/unblurred */
-    #mainContent {
-      padding-top: 50px;
-      max-width: 800px;
-      margin: 0 auto;
-      filter: blur(10px);
-      user-select: none;
-      pointer-events: none;
-      transition: filter 0.5s ease;
-      /* Example text border */
-      border: 2px solid white;
-      border-radius: 15px;
-      padding: 20px;
-      box-sizing: border-box;
-      background-color: rgba(0, 0, 0, 0.3); /* Optional for better text readability */
-    }
-
-    /* When unblurred, allow interaction */
-    #mainContent.active {
-      filter: none;
-      user-select: auto;
-      pointer-events: auto;
-      background-color: transparent;
-      border-color: white;
-    }
-
-    .box-row p {
-      border: 1px solid white; /* Example text border */
-      padding: 10px;
-      margin: 10px;
-      display: inline-block;
-      border-radius: 8px;
-      background-color: rgba(0,0,0,0.5);
-    }
-
-  </style>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
 
@@ -87,7 +16,7 @@
     <source src="hawk tuah on my grave.mp3" type="audio/mpeg">
   </audio>
 
-  <div id="mainContent">
+  <div id="contentWrapper">
     <h1>Insidingforfeds</h1>
 
     <div class="box-row">
@@ -100,14 +29,14 @@
 
   <script>
     const enterBtn = document.getElementById('enterBtn');
-    const mainContent = document.getElementById('mainContent');
+    const contentWrapper = document.getElementById('contentWrapper');
     const bgAudio = document.getElementById('bgAudio');
     const overlay = document.getElementById('overlay');
 
     enterBtn.addEventListener('click', () => {
       bgAudio.play().catch(err => console.warn('Autoplay blocked:', err));
       overlay.style.display = 'none';
-      mainContent.classList.add('active');
+      contentWrapper.classList.add('active');
     });
   </script>
 
