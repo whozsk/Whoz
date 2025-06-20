@@ -3,9 +3,9 @@ body {
   background: url('https://cdn.discordapp.com/attachments/1376485565934993420/1385220931282272438/vzSXcer.gif?ex=68554706&is=6853f586&hm=65b00beed413e4a6866e571da867c47391e7a0404dfd34848a9101dea25ef5fb&') no-repeat center center fixed;
   background-size: cover;
   font-family: 'Sour Gummy';
-  color: white;
+  color: rgb(139, 139, 139);
   margin: 0;
-  padding: 0;
+  padding: 10;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -21,19 +21,64 @@ body::before {
   z-index: -1;
 }
 
-/* title bar all across screen */
-h1 {
-  font-size: 50px;
-  text-align: center;
-  background-color: rgba(0, 0, 0, 0.8); /* black bg but see-thru */
-  border: 10px solid white;
+/* overlay with button */
+#overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0,0,0,0.5);
+  backdrop-filter: blur(10px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+#enterBtn {
+  padding: 20px 40px;
+  font-size: 1.5em;
+  background: rgb(83, 83, 83);
+  color: black;
+  border: none;
   border-radius: 10px;
-  padding: 50px 0;
-  margin: 0;
-  width: calc(100% - 4px); /* 2px side padding */
+  cursor: pointer;
+  z-index: 1001;
+}
+
+/* container wrapping all main content */
+#contentWrapper {
+  max-width: 2000px;
+  margin: 2px auto;
+  background-color: rgba(0,0,0,0.5);  /* solid black background */
+  border: 5px solid rgb(0,0,0.5);   /* thick black border */
+  border-radius: 10px;
+  padding: 2px 20px;
   box-sizing: border-box;
+  color: white;
+  text-align: center;
   position: relative;
   z-index: 1;
+  filter: blur(40px);
+  user-select: none;
+  pointer-events: none;
+  transition: filter 1s ease;
+}
+
+/* unblur and enable interaction after click */
+#contentWrapper.active {
+  filter: none;
+  user-select: auto;
+  pointer-events: auto;
+}
+
+/* simpler h1 inside wrapper */
+#contentWrapper h1 {
+  font-size: 50px;
+  margin-bottom: 40px;
+  background: none;
+  border: none;
+  padding: 0;
+  color: rgb(255, 255, 255);
+  display: inline-block;
 }
 
 /* row for the boxes */
@@ -49,18 +94,18 @@ h1 {
 .box-row p {
   font-size: 22px;
   text-align: center;
-  width: 200px;
+  width: 700px;
   height: 200px;
-  border: 2px solid white;
+  border: 2px solid rgb(94, 94, 94);
   border-radius: 10px;
   display: flex;
   align-items: flex-start;  /* text goes to top */
   justify-content: center;  /* center left-right */
   padding-top: 10px;        /* lil space from top */
-  margin: 0;
+  margin: 20;
   position: relative;
   z-index: 1;
-  background-color: rgba(0,0,0,0.5); /* semi transparent bg so text pops */
+  background-color: rgba(65, 65, 65, 0.5); /* semi transparent bg so text pops */
 }
 
 /* text under the boxes */
@@ -71,7 +116,7 @@ p.alias {
   width: auto;
   margin: 0;
   position: relative;
-  left: 113px;
+  left: 365px;
   bottom: 183px;
   z-index: 1;
 }
