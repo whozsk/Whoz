@@ -1,6 +1,6 @@
-/* full page gif background and center content */
+/* Full-page GIF background and centered layout */
 body {
-  background: url('https://cdn.discordapp.com/attachments/1376485565934993420/1385220931282272438/vzSXcer.gif?ex=68554706&is=6853f586&hm=65b00beed413e4a6866e571da867c47391e7a0404dfd34848a9101dea25ef5fb&') no-repeat center center fixed;
+  background: url('https://i.pinimg.com/originals/49/ef/fa/49effad145b3408c0657673286b1bb68.gif') no-repeat center center fixed;
   background-size: cover;
   font-family: 'Sour Gummy';
   color: rgb(139, 139, 139);
@@ -12,7 +12,7 @@ body {
   gap: 20px;
 }
 
-/* dark overlay behind everything for contrast */
+/* Dark overlay for readability */
 body::before {
   content: "";
   position: fixed;
@@ -21,12 +21,13 @@ body::before {
   z-index: -1;
 }
 
-/* overlay with enter button */
+/* Entry screen overlay */
 #overlay {
   position: fixed;
   inset: 0;
   background-color: rgba(0,0,0,0.5);
   backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -44,14 +45,38 @@ body::before {
   z-index: 1001;
 }
 
-/* main content container */
+/* Volume Control - hidden by default and top right */
+#volumeControl {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 2px solid rgb(92, 92, 92);
+  border-radius: 8px;
+  padding: 10px 14px;
+  color: white;
+  z-index: 1001;
+  font-size: 14px;
+  box-shadow: 0 0 10px white;
+  display: none;
+  transition: backdrop-filter 0.3s ease, background-color 0.3s ease;
+}
+
+#volumeControl input[type="range"] {
+  width: 100px;
+  margin-left: 10px;
+}
+
+/* Main content wrapper */
 #contentWrapper {
   max-width: 2000px;
-  margin: 2px auto;
+  margin: 20px auto;
   background-color: rgba(0, 0, 0, 0.5);
-  border: 5px solid rgba(0, 0, 0, 0.5);
-  border-radius: 10px;
-  padding: 2px 20px;
+  border: 2px solid rgb(88, 88, 88);
+  border-radius: 12px;
+  padding: 20px;
   box-sizing: border-box;
   color: white;
   text-align: center;
@@ -61,65 +86,86 @@ body::before {
   user-select: none;
   pointer-events: none;
   transition: filter 1s ease;
+  box-shadow: 0 0 20px white;
 }
 
-/* unblur and enable interaction */
 #contentWrapper.active {
   filter: none;
   user-select: auto;
   pointer-events: auto;
 }
 
-/* site title */
+/* Title styling */
 #contentWrapper h1 {
-  font-size: clamp(24px, 6vw, 50px);
-  margin-bottom: 40px;
-  background: none;
-  border: none;
-  padding: 0;
-  color: rgb(255, 255, 255);
+  font-size: clamp(30px, 6vw, 60px);
+  margin-bottom: 50px;
+  color: white;
+  background: rgba(0, 0, 0, 0.8);
+  padding: 20px 40px;
+  border: 2px solid rgb(85, 85, 85);
+  border-radius: 14px;
   display: inline-block;
+  box-shadow: 0 0 20px white;
+
+  /* Tilt effect */
+  transition: transform 0.1s ease;
+  perspective: 1000px;
+  transform-style: preserve-3d;
+  will-change: transform;
 }
 
-/* row for info boxes */
+/* Box row layout */
 .box-row {
   display: flex;
-  gap: 20px;
+  gap: 40px;
   justify-content: center;
-  position: relative;
-  z-index: 1;
   flex-wrap: wrap;
 }
 
-/* individual info boxes */
+/* Each box styled */
 .box-row p {
-  font-size: 5vw;
-  max-width: 700px;
-  width: 90%;
-  padding: 20px;
-  height: auto;
-  text-align: center;
-  border: 2px solid rgb(94, 94, 94);
-  border-radius: 10px;
+  width: 180px;
+  height: 220px;
+  background-color: rgba(0, 0, 0, 0.6);
+  border: 2px solid rgb(88, 88, 88);
+  border-radius: 16px;
+  color: white;
+  font-size: 20px;
+  font-weight: bold;
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   justify-content: center;
-  margin: 10px auto;
-  background-color: rgba(65, 65, 65, 0.5);
+  text-align: center;
+  padding: 10px;
+  box-shadow: 0 0 20px white;
+
+  /* Tilt effect */
+  transition: transform 0.1s ease;
+  perspective: 1000px;
+  transform-style: preserve-3d;
+  will-change: transform;
 }
 
-/* alias below boxes */
+/* Alias below boxes */
 p.alias {
   font-size: 18px;
-  border: none;
-  height: auto;
-  width: auto;
-  margin-top: 10px;
-  text-align: center;
-  position: static;
+  margin-top: 20px;
+  color: white;
+  background: rgba(0, 0, 0, 0.5);
+  padding: 8px 16px;
+  border: 2px solid rgb(83, 83, 83);
+  border-radius: 10px;
+  display: inline-block;
+  box-shadow: 0 0 20px white;
+
+  /* Tilt effect */
+  transition: transform 0.1s ease;
+  perspective: 1000px;
+  transform-style: preserve-3d;
+  will-change: transform;
 }
 
-/* responsiveness */
+/* === MOBILE FIXES === */
 @media (max-width: 768px) {
   .box-row {
     flex-direction: column;
@@ -127,10 +173,29 @@ p.alias {
   }
 
   .box-row p {
-    font-size: 6vw;
+    width: 160px;
+    height: 200px;
+    font-size: 18px;
+  }
+
+  #contentWrapper h1 {
+    font-size: 7vw;
+    padding: 14px 20px;
+    border-width: 4px;
   }
 
   p.alias {
     font-size: 16px;
+    border-width: 3px;
+  }
+
+  #volumeControl {
+    top: 10px;
+    right: 10px;
+    padding: 8px 10px;
+  }
+
+  #volumeControl input[type="range"] {
+    width: 80px;
   }
 }
