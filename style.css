@@ -5,14 +5,14 @@ body {
   font-family: 'Sour Gummy';
   color: rgb(139, 139, 139);
   margin: 0;
-  padding: 10;
+  padding: 10px;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 20px;
 }
 
-/* overlay behind content so text stands out */
+/* dark overlay behind everything for contrast */
 body::before {
   content: "";
   position: fixed;
@@ -21,7 +21,7 @@ body::before {
   z-index: -1;
 }
 
-/* overlay with button */
+/* overlay with enter button */
 #overlay {
   position: fixed;
   inset: 0;
@@ -44,12 +44,12 @@ body::before {
   z-index: 1001;
 }
 
-/* container wrapping all main content */
+/* main content container */
 #contentWrapper {
   max-width: 2000px;
   margin: 2px auto;
-  background-color: rgba(0,0,0,0.5);  /* solid black background */
-  border: 5px solid rgb(0,0,0.5);   /* thick black border */
+  background-color: rgba(0, 0, 0, 0.5);
+  border: 5px solid rgba(0, 0, 0, 0.5);
   border-radius: 10px;
   padding: 2px 20px;
   box-sizing: border-box;
@@ -63,16 +63,16 @@ body::before {
   transition: filter 1s ease;
 }
 
-/* unblur and enable interaction after click */
+/* unblur and enable interaction */
 #contentWrapper.active {
   filter: none;
   user-select: auto;
   pointer-events: auto;
 }
 
-/* simpler h1 inside wrapper */
+/* site title */
 #contentWrapper h1 {
-  font-size: 50px;
+  font-size: clamp(24px, 6vw, 50px);
   margin-bottom: 40px;
   background: none;
   border: none;
@@ -81,42 +81,56 @@ body::before {
   display: inline-block;
 }
 
-/* row for the boxes */
+/* row for info boxes */
 .box-row {
   display: flex;
-  gap: 20px; /* space between boxes */
+  gap: 20px;
   justify-content: center;
   position: relative;
   z-index: 1;
+  flex-wrap: wrap;
 }
 
-/* box style with top center text */
+/* individual info boxes */
 .box-row p {
-  font-size: 22px;
+  font-size: 5vw;
+  max-width: 700px;
+  width: 90%;
+  padding: 20px;
+  height: auto;
   text-align: center;
-  width: 700px;
-  height: 200px;
   border: 2px solid rgb(94, 94, 94);
   border-radius: 10px;
   display: flex;
-  align-items: flex-start;  /* text goes to top */
-  justify-content: center;  /* center left-right */
-  padding-top: 10px;        /* lil space from top */
-  margin: 20;
-  position: relative;
-  z-index: 1;
-  background-color: rgba(65, 65, 65, 0.5); /* semi transparent bg so text pops */
+  align-items: flex-start;
+  justify-content: center;
+  margin: 10px auto;
+  background-color: rgba(65, 65, 65, 0.5);
 }
 
-/* text under the boxes */
+/* alias below boxes */
 p.alias {
   font-size: 18px;
   border: none;
   height: auto;
   width: auto;
-  margin: 0;
-  position: relative;
-  left: 365px;
-  bottom: 183px;
-  z-index: 1;
+  margin-top: 10px;
+  text-align: center;
+  position: static;
+}
+
+/* responsiveness */
+@media (max-width: 768px) {
+  .box-row {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .box-row p {
+    font-size: 6vw;
+  }
+
+  p.alias {
+    font-size: 16px;
+  }
 }
