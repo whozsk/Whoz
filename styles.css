@@ -412,25 +412,17 @@ body::before {
 }
 
 .social-icon:nth-child(2)::after {
-    background: var(--github-gray);
-}
-.social-icon:nth-child(2):hover {
-    background-color: var(--github-gray);
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5), 0 0 10px var(--github-gray);
-}
-
-.social-icon:nth-child(3)::after {
     background: #00F2EA;
 }
-.social-icon:nth-child(3):hover {
+.social-icon:nth-child(2):hover {
     background-color: #00F2EA;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5), 0 0 10px #00F2EA;
 }
 
-.social-icon:nth-child(4)::after {
+.social-icon:nth-child(3)::after {
     background: var(--instagram-pink);
 }
-.social-icon:nth-child(4):hover {
+.social-icon:nth-child(3):hover {
     background-color: var(--instagram-pink);
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5), 0 0 10px var(--instagram-pink);
 }

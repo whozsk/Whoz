@@ -125,8 +125,7 @@ function setupicons() {
     const icons = document.querySelectorAll('.social-icon');
     const urls = [
         'https://discord.com/users/1390203577292816487',
-        'https://github.com/whozsk',
-        'https://www.tiktok.com/@prxdbywhoz',
+        'https://www.tiktok.com/@hopingyoudnotice',
         'https://www.instagram.com/fedharm/'
     ];
     
