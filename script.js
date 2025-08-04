@@ -25,7 +25,7 @@ setInterval(() => {
 }, 1000);
 
 function addsymbols() {
-    const symbols = ['⛧', '☠', '⚰', '🔥', '⛥', '⍟', '⚝', '✞', '⚔', '♰', '⛇', '☦', '⚶', '☽', '☮', '♱', '⚕', '⚸'];
+    const symbols = ['⛧', '☠', '⚰', '⛥', '⍟', '⚝', '✞', '⚔', '♰', '⛇', '☦', '⚶', '☽', '☮', '♱', '⚕', '⚸'];
     const container = document.body;
     
     for (let i = 0; i < 12; i++) {
@@ -56,7 +56,7 @@ function playsong() {
         audio.pause();
         audio.currentTime = 0;
     } else {
-        audio = new Audio('song.mp3');
+        audio = new Audio('knife.mp3');
     }
     
     audio.play().catch(e => console.error('Audio playback failed:', e));
