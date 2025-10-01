@@ -56,7 +56,7 @@ function playsong() {
         audio.pause();
         audio.currentTime = 0;
     } else {
-        audio = new Audio('i2.mp3');
+        audio = new Audio('minds.mp3');
     }
     
     audio.play().catch(e => console.error('Audio playback failed:', e));
