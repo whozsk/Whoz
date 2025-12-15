@@ -754,6 +754,55 @@ still whoz here
     });
 
     const clickToEnter = document.querySelector('.click-to-enter');
+    const SONGS = [
+  "./audio/67_pretty.mp3",
+  "./audio/angry.mp3",
+  "./audio/cigarette.mp3",
+  "./audio/fast_asleep.mp3",
+  "./audio/memory_card_missing.mp3",
+  "./audio/go_back_to_bed.mp3",
+  "./audio/vamp_bihh.mp3",
+  "./audio/geeked_xbox_360.mp3"
+];
+
+const audio = document.getElementById("backgroundMusic");
+const volumeSlider = document.getElementById("volumeSlider");
+
+audio.volume = 0.3;
+
+function shuffle(arr) {
+  return arr
+    .map(v => ({ v, r: Math.random() }))
+    .sort((a, b) => a.r - b.r)
+    .map(o => o.v);
+}
+
+let order = JSON.parse(localStorage.getItem("song_order") || "null");
+let index = parseInt(localStorage.getItem("song_index") || "0", 10);
+
+if (!order || order.length !== SONGS.length) {
+  order = shuffle(SONGS);
+  index = 0;
+}
+
+function playNextSong() {
+  if (index >= order.length) {
+    order = shuffle(SONGS);
+    index = 0;
+  }
+
+  audio.src = order[index++];
+  localStorage.setItem("song_order", JSON.stringify(order));
+  localStorage.setItem("song_index", index.toString());
+
+  audio.play();
+}
+
+audio.onended = playNextSong;
+
+volumeSlider.addEventListener("input", () => {
+  audio.volume = volumeSlider.value;
+});
     clickToEnter.addEventListener('click', () => {
       clickToEnter.classList.add('fading');
       setTimeout(() => {
