@@ -177,7 +177,7 @@
       color: #fff;
       font-size: 2em;
       text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-      z-index: 9999;            /* IMPORTANT: always on top */
+      z-index: 9999;
       cursor: pointer;
       transition: opacity 0.5s ease;
       user-select: none;
@@ -509,13 +509,15 @@ still whoz here
   <script>
     let isDisintegrating = false;
 
-    // ---- SONG SETTINGS (rename files to NOT use "*") ----
-    // Put your mp3 files inside /audio/ like:
-    // audio/67_pretty.mp3   (NOT "*67 pretty")
+    /* ===========================
+       RANDOM MUSIC (NO REPEATS)
+       =========================== */
+
+    // Make sure these EXACTLY match your filenames
     const SONGS = [
-      "./audio/_67 pretty.mp3",
-      "./audio/angry.mp3",
-      "./audio/cigarette.mp3",
+      "./audio/67_pretty.mp3",
+      "./audio/angry(1).mp3",
+      "./audio/cigarette(1).mp3",
       "./audio/fast_asleep.mp3",
       "./audio/memory_card_missing.mp3",
       "./audio/go_back_to_bed.mp3",
@@ -525,72 +527,74 @@ still whoz here
 
     const audio = document.getElementById('backgroundMusic');
     const volumeSlider = document.getElementById('volumeSlider');
+
     audio.volume = 0.3;
     volumeSlider.style.setProperty('--volume', `${audio.volume * 100}%`);
 
-    // Bag system so the SAME PERSON won't repeat until all songs are used
-    const LS_BAG  = "whoz_song_bag_v1";
-    const LS_LAST = "whoz_last_song_v1";
+    // Persistent per-person shuffle order + index
+    const LS_ORDER = "whoz_song_order_v2";
+    const LS_INDEX = "whoz_song_index_v2";
+    const LS_LAST  = "whoz_song_last_v2";
 
-    function shuffle(arr) {
-      for (let i = arr.length - 1; i > 0; i--) {
+    function shuffleNew(arr) {
+      const a = arr.slice();
+      for (let i = a.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
-        [arr[i], arr[j]] = [arr[j], arr[i]];
+        [a[i], a[j]] = [a[j], a[i]];
       }
-      return arr;
+      return a;
     }
 
-    function loadBag() {
+    function getNextSongForThisPerson() {
+      let order;
+      let idx;
+
       try {
-        const raw = localStorage.getItem(LS_BAG);
-        const bag = raw ? JSON.parse(raw) : [];
-        return Array.isArray(bag) ? bag : [];
+        order = JSON.parse(localStorage.getItem(LS_ORDER) || "null");
+        idx = parseInt(localStorage.getItem(LS_INDEX) || "0", 10);
       } catch {
-        return [];
-      }
-    }
-
-    function saveBag(bag) {
-      localStorage.setItem(LS_BAG, JSON.stringify(bag));
-    }
-
-    function refillBagAvoidingImmediateRepeat() {
-      const last = localStorage.getItem(LS_LAST) || "";
-      const bag = shuffle([...SONGS]);
-
-      // If shuffle put last song first, rotate it away (so next pick isn't the same)
-      if (bag.length > 1 && bag[0] === last) {
-        const first = bag.shift();
-        bag.push(first);
+        order = null;
+        idx = 0;
       }
 
-      saveBag(bag);
-      return bag;
-    }
+      // Build a new order once (and keep it)
+      if (!Array.isArray(order) || order.length !== SONGS.length) {
+        order = shuffleNew(SONGS);
+        idx = 0;
+      }
 
-    function pickNextSongForThisPerson() {
-      let bag = loadBag();
-      if (!bag || bag.length === 0) bag = refillBagAvoidingImmediateRepeat();
+      // If finished the cycle, reshuffle (avoid immediate repeat)
+      if (idx >= order.length) {
+        const last = localStorage.getItem(LS_LAST) || "";
+        order = shuffleNew(SONGS);
+        if (order.length > 1 && order[0] === last) {
+          const first = order.shift();
+          order.push(first);
+        }
+        idx = 0;
+      }
 
-      const next = bag.shift();
-      saveBag(bag);
+      const next = order[idx];
+      idx++;
+
+      localStorage.setItem(LS_ORDER, JSON.stringify(order));
+      localStorage.setItem(LS_INDEX, String(idx));
       localStorage.setItem(LS_LAST, next);
+
       return next;
     }
 
     async function startMusicAfterClick() {
-      const song = pickNextSongForThisPerson();
+      const song = getNextSongForThisPerson();
       audio.loop = true;
       audio.src = song;
       audio.load();
 
       try {
         await audio.play();
-      } catch (e) {
-        // If browser blocks it for any reason, try again on next interaction
-        const tryAgain = async () => {
-          try { await audio.play(); } catch {}
-        };
+      } catch {
+        // In case browser blocks it for any reason, retry on next interaction
+        const tryAgain = async () => { try { await audio.play(); } catch {} };
         document.addEventListener('click', tryAgain, { once: true });
         document.addEventListener('keydown', tryAgain, { once: true });
         document.addEventListener('touchstart', tryAgain, { once: true });
@@ -602,7 +606,10 @@ still whoz here
       volumeSlider.style.setProperty('--volume', `${audio.volume * 100}%`);
     });
 
-    // ---- Secret Key Function (put your key back if you want) ----
+    /* ===========================
+       SECRET KEY / DISINTEGRATE
+       =========================== */
+
     function checkSecretKey() {
       const secretKeyInput = document.getElementById('secretKeyInput');
       const secretPopup = document.getElementById('secretPopup');
@@ -658,8 +665,8 @@ still whoz here
       document.querySelectorAll('.sidebar-item').forEach(item => item.classList.remove('active'));
       document.querySelectorAll('.content-section').forEach(section => section.classList.remove('active'));
 
-      const selectedItem = document.querySelector(`.sidebar-item[data-section="${sectionId}"]`);
-      const selectedSection = document.getElementById(`${sectionId}-content`);
+      const selectedItem = document.querySelector(\`.sidebar-item[data-section="\${sectionId}"]\`);
+      const selectedSection = document.getElementById(\`\${sectionId}-content\`);
       if (selectedItem && selectedSection) {
         selectedItem.classList.add('active');
         selectedSection.classList.add('active');
@@ -710,7 +717,7 @@ still whoz here
       const my = e.clientY - centerY;
       const rotateX = (my / rect.height) * -20;
       const rotateY = (mx / rect.width) * 20;
-      container.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateX(-10px)`;
+      container.style.transform = \`perspective(1000px) rotateX(\${rotateX}deg) rotateY(\${rotateY}deg) translateX(-10px)\`;
     });
     container.addEventListener('mouseleave', () => {
       container.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateX(-10px)';
@@ -725,7 +732,7 @@ still whoz here
       const my = e.clientY - centerY;
       const rotateX = (my / rect.height) * -20;
       const rotateY = (mx / rect.width) * 20;
-      profile.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+      profile.style.transform = \`perspective(1000px) rotateX(\${rotateX}deg) rotateY(\${rotateY}deg)\`;
     });
     profile.addEventListener('mouseleave', () => {
       profile.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg)';
@@ -740,19 +747,19 @@ still whoz here
       const my = e.clientY - centerY;
       const rotateX = (my / rect.height) * -20;
       const rotateY = (mx / rect.width) * 20;
-      audioControls.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+      audioControls.style.transform = \`perspective(1000px) rotateX(\${rotateX}deg) rotateY(\${rotateY}deg)\`;
     });
     audioControls.addEventListener('mouseleave', () => {
       audioControls.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg)';
     });
 
-    // CLICK TO ENTER -> fade overlay + start random music
+    // CLICK TO ENTER -> fade overlay + start random music (no repeat per person)
     const clickToEnter = document.querySelector('.click-to-enter');
     clickToEnter.addEventListener('click', async () => {
       clickToEnter.classList.add('fading');
       await startMusicAfterClick();
       setTimeout(() => clickToEnter.remove(), 500);
-    });
+    }, { once: true });
 
     // ---- Grain animation ----
     const grains = [];
