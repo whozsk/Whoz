@@ -779,14 +779,14 @@ return {
 
 (function () {
   const SONGS = [
-    "./audio/*67 pretty.mp3",
+    "./audio/67_pretty.mp3",
     "./audio/angry.mp3",
     "./audio/cigarette.mp3",
-    "./audio/fast asleep.mp3",
-    "./audio/memory card missing.mp3",
-    "./audio/go back to bed.mp3",
-    "./audio/＊67 - 🩸 vamp bihh 🩸 #xxet2k22 #bvkrevival prod. 4jay.mp3",
-    "./audio/geeked up playing xbox 360 skel.mp3"
+    "./audio/fast_asleep.mp3",
+    "./audio/memory_card_missing.mp3",
+    "./audio/go_back_to_bed.mp3",
+    "./audio/vamp_bihh.mp3",
+    "./audio/geeked_xbox_360.mp3"
   ];
 
   const audio = document.getElementById("backgroundMusic");
