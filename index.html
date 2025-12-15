@@ -7,6 +7,26 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <style>
+
+    /* Avatar Decoration Overlay */
+.avatar{
+  position: relative; /* make sure ::after positions correctly */
+  overflow: visible;
+}
+
+.avatar::after{
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 70px;          /* adjust size if you want */
+  height: 70px;
+  transform: translate(-50%, -50%);
+  background: url("https://cdn.discordapp.com/avatar-decoration-presets/a_4f8e2a19fe964b9e9693ffd13df23d83.png?size=160") center / contain no-repeat;
+  pointer-events: none;
+  z-index: 5;           /* above avatar */
+}
+
     @font-face {
       font-family: 'Milkyway';
       src: url('./Milkyway DEMO.ttf') format('truetype');
