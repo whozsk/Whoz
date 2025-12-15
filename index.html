@@ -770,6 +770,75 @@ const volumeSlider = document.getElementById("volumeSlider");
 
 audio.volume = 0.3;
 
+    function shuffle(arr) {
+  const a = arr.slice();
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+let order = null;
+let index = 0;
+
+try {
+  order = JSON.parse(localStorage.getItem("song_order") || "null");
+  index = parseInt(localStorage.getItem("song_index") || "0", 10);
+} catch {
+  order = null;
+  index = 0;
+}
+
+if (!Array.isArray(order) || order.length !== SONGS.length || !Number.isFinite(index)) {
+  order = shuffle(SONGS);
+  index = 0;
+  localStorage.setItem("song_order", JSON.stringify(order));
+  localStorage.setItem("song_index", "0");
+}
+
+function playNextSong() {
+  if (index >= order.length) {
+    order = shuffle(SONGS);
+    index = 0;
+  }
+
+  const next = order[index++];
+  localStorage.setItem("song_order", JSON.stringify(order));
+  localStorage.setItem("song_index", String(index));
+
+  audio.src = next;
+  audio.loop = false;
+
+  audio.play().catch((err) => {
+    console.log("Audio play failed:", err);
+  });
+}
+
+// when a song ends, play the next one
+audio.addEventListener("ended", () => {
+  playNextSong();
+});
+
+// volume slider
+if (volumeSlider) {
+  volumeSlider.addEventListener("input", () => {
+    audio.volume = parseFloat(volumeSlider.value);
+  });
+}
+
+// START MUSIC ONLY WHEN THEY CLICK "CLICK TO ENTER"
+if (clickToEnter) {
+  clickToEnter.addEventListener("click", () => {
+    playNextSong(); // 🔊 start on user gesture
+
+    clickToEnter.classList.add("fading");
+    setTimeout(() => {
+      clickToEnter.remove();
+    }, 500);
+  }, { once: true });
+}
+
 function shuffle(arr) {
   return arr
     .map(v => ({ v, r: Math.random() }))
