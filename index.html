@@ -23,21 +23,50 @@
       color: #fff;
       overflow: hidden;
       position: relative;
+      
     }
-    body.disintegrated { cursor: default; }
-
-    canvas#starCanvas, canvas#trailCanvas, canvas#grainCanvas {
+    body.disintegrated {
+      cursor: default;
+    }
+    canvas#starCanvas {
       position: absolute;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
       opacity: 1;
       transition: opacity 1s ease;
     }
-    canvas#starCanvas { z-index: 1; }
-    canvas#trailCanvas { z-index: 2; }
-    canvas#grainCanvas { z-index: 3; }
-    canvas#starCanvas.hidden, canvas#trailCanvas.hidden, canvas#grainCanvas.hidden { opacity: 0; }
-
+    canvas#starCanvas.hidden {
+      opacity: 0;
+    }
+    canvas#trailCanvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 2;
+      opacity: 1;
+      transition: opacity 1s ease;
+    }
+    canvas#trailCanvas.hidden {
+      opacity: 0;
+    }
+    canvas#grainCanvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 3;
+      opacity: 1;
+      transition: opacity 1s ease;
+    }
+    canvas#grainCanvas.hidden {
+      opacity: 0;
+    }
     .container {
       text-align: center;
       position: relative;
@@ -53,7 +82,6 @@
       transition: transform 0.2s ease;
       transform: translateX(-10px);
     }
-
     .symbol {
       font-size: 2em;
       color: #fff;
@@ -74,10 +102,13 @@
       margin-bottom: 15px;
     }
     @keyframes glow {
-      from { text-shadow: 0 0 10px #fff, 0 0 20px #fff; }
-      to   { text-shadow: 0 0 15px #fff, 0 0 25px #fff; }
+      from {
+        text-shadow: 0 0 10px #fff, 0 0 20px #fff;
+      }
+      to {
+        text-shadow: 0 0 15px #fff, 0 0 25px #fff;
+      }
     }
-
     .links {
       display: flex;
       justify-content: center;
@@ -92,8 +123,12 @@
       display: inline-flex;
       align-items: center;
       justify-content: center;
+      : url('./.png') 65 65, pointer;
     }
-    .link-btn:hover { color: #ddd; transform: scale(1.1); }
+    .link-btn:hover {
+      color: #ddd;
+      transform: scale(1.1);
+    }
     .link-btn img {
       width: 42px;
       height: 42px;
@@ -106,7 +141,6 @@
       box-shadow: 0 0 8px rgba(255, 255, 255, 0.7), 0 0 4px #fff;
       filter: drop-shadow(0 0 3px rgba(255, 255, 255, 0.8));
     }
-
     .profile {
       margin-top: 20px;
       position: relative;
@@ -121,11 +155,18 @@
       transform-style: preserve-3d;
       transition: transform 0.2s ease;
     }
-
-    .status { display: flex; align-items: center; gap: 15px; font-size: 1em; color: #fff; position: relative; }
+    .status {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      font-size: 1em;
+      color: #fff;
+      position: relative;
+    }
     .banner {
       position: absolute;
-      top: -40px; left: -40px;
+      top: -40px;
+      left: -40px;
       width: calc(100% + 80px);
       height: calc(100% + 80px);
       background-image: url('./banner.png');
@@ -136,7 +177,8 @@
       opacity: 0.7;
     }
     .avatar {
-      width: 50px; height: 50px;
+      width: 50px;
+      height: 50px;
       background: #ccc;
       border-radius: 50%;
       border: 2px solid #fff;
@@ -162,13 +204,20 @@
       color: #ff0000;
       text-shadow: 0 0 5px rgba(255, 0, 0, 0.5);
     }
-    .status-text .user { font-size: 0.9em; color: #999; }
-    .status-text .sub  { font-size: 0.85em; color: #bbb; }
-
+    .status-text .user {
+      font-size: 0.9em;
+      color: #999;
+    }
+    .status-text .sub {
+      font-size: 0.85em;
+      color: #bbb;
+    }
     .click-to-enter {
       position: fixed;
-      top: 0; left: 0;
-      width: 100vw; height: 100vh;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
       background: rgba(0, 0, 0, 0.7);
       backdrop-filter: blur(5px);
       display: flex;
@@ -177,26 +226,39 @@
       color: #fff;
       font-size: 2em;
       text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-      z-index: 9999;
-      cursor: pointer;
+      : url('./.png') 65 65, pointer;
+      z-index: 100;
       transition: opacity 0.5s ease;
-      user-select: none;
     }
     .click-to-enter::before {
       content: '';
       position: absolute;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
       background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100"><filter id="noise"><feTurbulence type="turbulence" baseFrequency="0.65" numOctaves="3" stitchTiles="stitch"/><feColorMatrix type="saturate" values="0"/></filter><rect width="100" height="100" filter="url(#noise)" opacity="0.3"/></svg>') repeat;
       filter: grayscale(100%) blur(5px);
       z-index: -1;
     }
-    .click-to-enter:hover::before { filter: grayscale(100%) blur(3px); }
-    .click-to-enter.fading { opacity: 0; }
-
+    .click-to-enter:hover::before {
+      filter: grayscale(100%) blur(3px);
+    }
+    .click-to-enter.fading {
+      opacity: 0;
+    }
+    .click-to-enter canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+    }
     .audio-controls {
       position: absolute;
-      top: 20px; right: 20px;
+      top: 20px;
+      right: 20px;
       background: rgba(255, 255, 255, 0.05);
       border-radius: 10px;
       padding: 10px 20px;
@@ -210,7 +272,9 @@
       transition: transform 0.2s ease, opacity 1s ease;
       opacity: 1;
     }
-    .audio-controls.hidden { opacity: 0; }
+    .audio-controls.hidden {
+      opacity: 0;
+    }
     .audio-controls input[type="range"] {
       -webkit-appearance: none;
       width: 120px;
@@ -222,25 +286,30 @@
     }
     .audio-controls input[type="range"]::-webkit-slider-thumb {
       -webkit-appearance: none;
-      width: 18px; height: 18px;
+      width: 18px;
+      height: 18px;
       background: #fff;
       border-radius: 50%;
+      : url('./.png') 65 65, pointer;
       box-shadow: 0 0 8px rgba(255, 255, 255, 0.7);
     }
     .audio-controls input[type="range"]::-moz-range-thumb {
-      width: 18px; height: 18px;
+      width: 18px;
+      height: 18px;
       background: #fff;
       border-radius: 50%;
+      : url('./.png') 65 65, pointer;
       box-shadow: 0 0 8px rgba(255, 255, 255, 0.7);
     }
     .audio-controls input[type="range"]:hover {
       background: linear-gradient(to right, #fff 0%, #fff var(--volume), rgba(255, 255, 255, 0.5) var(--volume), rgba(255, 255, 255, 0.5) 100%);
     }
-
     .info-icon {
       position: fixed;
-      bottom: 20px; left: 20px;
-      width: 40px; height: 40px;
+      bottom: 20px;
+      left: 20px;
+      width: 40px;
+      height: 40px;
       background: rgba(255, 255, 255, 0.05);
       border: 2px solid rgba(255, 255, 255, 0.2);
       border-radius: 50%;
@@ -250,10 +319,10 @@
       font-size: 1.5em;
       color: #fff;
       text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+      : url('./.png') 65 65, pointer;
       z-index: 4;
       transition: all 0.3s ease;
       line-height: 1;
-      cursor: pointer;
     }
     .info-icon:hover {
       transform: scale(1.1);
@@ -262,7 +331,8 @@
     }
     .info-tooltip {
       position: fixed;
-      bottom: 70px; left: 20px;
+      bottom: 70px;
+      left: 20px;
       background: rgba(255, 255, 255, 0.05);
       border: 1px solid rgba(255, 255, 255, 0.2);
       border-radius: 10px;
@@ -281,11 +351,13 @@
       justify-content: center;
       text-align: center;
     }
-    .info-icon:hover + .info-tooltip { opacity: 1; }
-
+    .info-icon:hover + .info-tooltip {
+      opacity: 1;
+    }
     .secret-popup {
       position: fixed;
-      top: 50%; left: 50%;
+      top: 50%;
+      left: 50%;
       transform: translate(-50%, -50%);
       background: rgb(0, 0, 0);
       border: 1px solid rgba(255, 255, 255, 0.2);
@@ -315,7 +387,7 @@
       border: none;
       border-radius: 5px;
       color: #fff;
-      cursor: pointer;
+      : url('./.png') 65 65, pointer;
       transition: all 0.3s ease;
       font-family: 'Milkyway', monospace;
     }
@@ -323,7 +395,6 @@
       transform: scale(1.05);
       box-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
     }
-
     /* New Panel Styles */
     #new-panel {
       display: none;
@@ -341,11 +412,15 @@
       transition: opacity 1s ease;
       z-index: 1000;
       position: absolute;
-      top: 50%; left: 50%;
+      top: 50%;
+      left: 50%;
       transform: translate(-50%, -50%);
       margin: 0;
     }
-    #new-panel.visible { display: flex; opacity: 1; }
+    #new-panel.visible {
+      display: flex;
+      opacity: 1;
+    }
     .sidebar {
       width: 280px;
       background: rgba(17, 17, 17, 0.85);
@@ -378,7 +453,9 @@
       background: rgba(88, 101, 242, 0.2);
       color: #5865f2;
     }
-    .sidebar-item i { font-size: 1.2rem; }
+    .sidebar-item i {
+      font-size: 1.2rem;
+    }
     .main-content {
       flex: 1;
       padding: 30px;
@@ -393,8 +470,14 @@
       font-weight: 700;
       margin-bottom: 20px;
     }
-    .content-section { display: none; width: 100%; height: 100%; }
-    .content-section.active { display: flex; }
+    .content-section {
+      display: none;
+      width: 100%;
+      height: 100%;
+    }
+    .content-section.active {
+      display: flex;
+    }
     #methods-content {
       flex-direction: column;
       align-items: flex-start;
@@ -403,7 +486,9 @@
       width: 100%;
       box-sizing: border-box;
     }
-    #methods-content::-webkit-scrollbar { width: 8px; }
+    #methods-content::-webkit-scrollbar {
+      width: 8px;
+    }
     #methods-content::-webkit-scrollbar-track {
       background: rgba(255, 255, 255, 0.05);
       border-radius: 4px;
@@ -413,7 +498,9 @@
       border-radius: 4px;
       transition: background 0.3s ease;
     }
-    #methods-content::-webkit-scrollbar-thumb:hover { background: #7289da; }
+    #methods-content::-webkit-scrollbar-thumb:hover {
+      background: #7289da;
+    }
     .method-text {
       background: rgba(255, 255, 255, 0.05);
       border: 1px solid rgba(255, 255, 255, 0.1);
@@ -428,19 +515,67 @@
       white-space: pre-wrap;
       box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
     }
+
+
+.mini-player{
+  margin-top: 14px;
+  background: rgba(0,0,0,0.35);
+  border: 1px solid rgba(255,255,255,0.18);
+  border-radius: 14px;
+  padding: 14px;
+  box-shadow: 0 0 18px rgba(0,0,0,0.45);
+  font-family: 'Inter', sans-serif;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.track-title{
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: #fff;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.mini-player-controls{
+  display: flex;
+  justify-content: center;
+}
+
+.mp-btn{
+  width: 46px;
+  height: 40px;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,0.18);
+  background: rgba(255,255,255,0.06);
+  color: #fff;
+  cursor: pointer;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  transition: 0.2s ease;
+}
+
+.mp-btn:hover{
+  transform: scale(1.08);
+  background: rgba(255,255,255,0.12);
+}
+
+
   </style>
 </head>
-
 <body>
   <canvas id="starCanvas"></canvas>
   <canvas id="grainCanvas"></canvas>
-
   <div id="disintegrate-all" data-dis-type="simultaneous">
     <canvas id="trailCanvas"></canvas>
-
     <div id="content">
-      <div class="click-to-enter">Click to Enter</div>
-
+      <div class="click-to-enter">
+        Click to Enter
+      </div>
       <div class="container">
         <div class="symbol"></div>
         <h1 class="username">♱Whoz^_^</h1>
@@ -451,33 +586,39 @@
           <a href="https://www.tiktok.com/@whozxd" class="link-btn"><img src="./tiktok.png" alt="TikTok"></a>
         </div>
       </div>
+<div class="profile">
+  <div class="status">
+    <div class="banner"></div>
+    <div class="avatar"></div>
+    <div class="status-text">
+      <div class="main">♱Whoz</div>
+      <div class="user">1whoz</div>
+      <div class="sub">last seen now</div>
+    </div>
+  </div>
 
-      <div class="profile">
-        <div class="status">
-          <div class="banner"></div>
-          <div class="avatar"></div>
-          <div class="status-text">
-            <div class="main">♱Whoz</div>
-            <div class="user">1whoz</div>
-            <div class="sub">last seen now</div>
-          </div>
-        </div>
+<!-- MINI PLAYER -->
+<div class="mini-player">
+  <div class="track-title">
+    cigarette.mp3 - *67
+  </div>
+  </div>
+</div>
+
+
       </div>
-
       <div class="info-icon">?</div>
       <div class="info-tooltip">
         made by: whoz
         owned by: whoz
       </div>
     </div>
-
     <div class="secret-popup" id="secretPopup">
       <h3>Enter Secret Key</h3>
       <input type="text" id="secretKeyInput" placeholder="Key">
       <button onclick="checkSecretKey()">Submit</button>
     </div>
   </div>
-
   <div id="new-panel">
     <div class="sidebar">
       <a href="#" class="sidebar-item" data-section="home"><i class="fas fa-home"></i> Home</a>
@@ -495,128 +636,24 @@ still whoz here
       </div>
     </div>
   </div>
-
-  <div class="audio-controls">
-    <input type="range" id="volumeSlider" min="0" max="1" step="0.01" value="0.3">
-  </div>
-
-  <!-- IMPORTANT: no autoplay + no <source>. JS sets audio.src after click -->
-  <audio id="backgroundMusic" preload="none"></audio>
-
+<div class="audio-controls" id="audioControls">
+  <input type="range" id="volumeSlider" min="0" max="1" step="0.01" value="0.3">
+</div>
+  <audio id="backgroundMusic" loop volume="0.3" autoplay>
+    <source src="cigarette.mp3" type="audio/mpeg">
+  </audio>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <script src="./disintegrate.js"></script>
-
   <script>
     let isDisintegrating = false;
 
-    /* ===========================
-       RANDOM MUSIC (NO REPEATS)
-       =========================== */
-
-    // Make sure these EXACTLY match your filenames
-    const SONGS = [
-      "./audio/67_pretty.mp3",
-      "./audio/angry(1).mp3",
-      "./audio/cigarette(1).mp3",
-      "./audio/fast_asleep.mp3",
-      "./audio/memory_card_missing.mp3",
-      "./audio/go_back_to_bed.mp3",
-      "./audio/vamp_bihh.mp3",
-      "./audio/geeked_xbox_360.mp3"
-    ];
-
-    const audio = document.getElementById('backgroundMusic');
-    const volumeSlider = document.getElementById('volumeSlider');
-
-    audio.volume = 0.3;
-    volumeSlider.style.setProperty('--volume', `${audio.volume * 100}%`);
-
-    // Persistent per-person shuffle order + index
-    const LS_ORDER = "whoz_song_order_v2";
-    const LS_INDEX = "whoz_song_index_v2";
-    const LS_LAST  = "whoz_song_last_v2";
-
-    function shuffleNew(arr) {
-      const a = arr.slice();
-      for (let i = a.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [a[i], a[j]] = [a[j], a[i]];
-      }
-      return a;
-    }
-
-    function getNextSongForThisPerson() {
-      let order;
-      let idx;
-
-      try {
-        order = JSON.parse(localStorage.getItem(LS_ORDER) || "null");
-        idx = parseInt(localStorage.getItem(LS_INDEX) || "0", 10);
-      } catch {
-        order = null;
-        idx = 0;
-      }
-
-      // Build a new order once (and keep it)
-      if (!Array.isArray(order) || order.length !== SONGS.length) {
-        order = shuffleNew(SONGS);
-        idx = 0;
-      }
-
-      // If finished the cycle, reshuffle (avoid immediate repeat)
-      if (idx >= order.length) {
-        const last = localStorage.getItem(LS_LAST) || "";
-        order = shuffleNew(SONGS);
-        if (order.length > 1 && order[0] === last) {
-          const first = order.shift();
-          order.push(first);
-        }
-        idx = 0;
-      }
-
-      const next = order[idx];
-      idx++;
-
-      localStorage.setItem(LS_ORDER, JSON.stringify(order));
-      localStorage.setItem(LS_INDEX, String(idx));
-      localStorage.setItem(LS_LAST, next);
-
-      return next;
-    }
-
-    async function startMusicAfterClick() {
-      const song = getNextSongForThisPerson();
-      audio.loop = true;
-      audio.src = song;
-      audio.load();
-
-      try {
-        await audio.play();
-      } catch {
-        // In case browser blocks it for any reason, retry on next interaction
-        const tryAgain = async () => { try { await audio.play(); } catch {} };
-        document.addEventListener('click', tryAgain, { once: true });
-        document.addEventListener('keydown', tryAgain, { once: true });
-        document.addEventListener('touchstart', tryAgain, { once: true });
-      }
-    }
-
-    volumeSlider.addEventListener('input', () => {
-      audio.volume = volumeSlider.value;
-      volumeSlider.style.setProperty('--volume', `${audio.volume * 100}%`);
-    });
-
-    /* ===========================
-       SECRET KEY / DISINTEGRATE
-       =========================== */
-
+    // Secret Key Function
     function checkSecretKey() {
       const secretKeyInput = document.getElementById('secretKeyInput');
       const secretPopup = document.getElementById('secretPopup');
-
-      const secretKey = 'PUT_YOUR_KEY_HERE';
-
+      const secretKey = 'hunted is a nigger';
       if (secretKeyInput.value.toLowerCase() === secretKey.toLowerCase()) {
+        console.log('Secret key correct, initiating disintegration');
         secretPopup.style.display = 'none';
         if (typeof disintegrate !== 'undefined') {
           isDisintegrating = true;
@@ -625,7 +662,7 @@ still whoz here
           disintegrate.createSimultaneousParticles(disObj);
           content.style.visibility = 'hidden';
           document.body.classList.add('disintegrated');
-
+          // Hide elements
           const newPanel = document.getElementById('new-panel');
           const trailCanvas = document.getElementById('trailCanvas');
           const audioControls = document.querySelector('.audio-controls');
@@ -633,8 +670,9 @@ still whoz here
           newPanel.style.opacity = '0';
           trailCanvas.classList.add('hidden');
           audioControls.classList.add('hidden');
-
+          // Fade in elements
           setTimeout(() => {
+            console.log('Fading in panel, trail canvas, and audio controls');
             newPanel.style.display = 'flex';
             trailCanvas.classList.remove('hidden');
             audioControls.classList.remove('hidden');
@@ -642,47 +680,64 @@ still whoz here
               newPanel.style.opacity = '1';
               trailCanvas.style.opacity = '1';
               audioControls.style.opacity = '1';
+              console.log('Fade-in complete');
+              // Show home section by default
               showSection('home');
             }, 10);
           }, 500);
         } else {
           secretKeyInput.value = '';
           secretKeyInput.placeholder = 'Effect unavailable!';
+          console.warn('Disintegrate.js not loaded. Thanos snap effect unavailable.');
         }
       } else {
         secretKeyInput.value = '';
         secretKeyInput.placeholder = 'Wrong Key!';
       }
     }
-    window.checkSecretKey = checkSecretKey;
 
+    // Initialize Disintegrate.js
     document.addEventListener('DOMContentLoaded', () => {
-      if (typeof disintegrate === 'undefined') return;
+      if (typeof disintegrate === 'undefined') {
+        console.warn('Failed to load disintegrate.js. Ensure ./disintegrate.js is in the project directory.');
+        return;
+      }
       disintegrate.init();
     });
 
+    // Sidebar Navigation
     function showSection(sectionId) {
-      document.querySelectorAll('.sidebar-item').forEach(item => item.classList.remove('active'));
-      document.querySelectorAll('.content-section').forEach(section => section.classList.remove('active'));
+      // Remove active class from all sidebar items and content sections
+      document.querySelectorAll('.sidebar-item').forEach(item => {
+        item.classList.remove('active');
+      });
+      document.querySelectorAll('.content-section').forEach(section => {
+        section.classList.remove('active');
+      });
 
-      const selectedItem = document.querySelector(\`.sidebar-item[data-section="\${sectionId}"]\`);
-      const selectedSection = document.getElementById(\`\${sectionId}-content\`);
+      // Add active class to the selected sidebar item and content section
+      const selectedItem = document.querySelector(`.sidebar-item[data-section="${sectionId}"]`);
+      const selectedSection = document.getElementById(`${sectionId}-content`);
       if (selectedItem && selectedSection) {
         selectedItem.classList.add('active');
         selectedSection.classList.add('active');
       }
     }
 
+    // Add click event listeners to sidebar items
     document.querySelectorAll('.sidebar-item').forEach(item => {
       item.addEventListener('click', (e) => {
         e.preventDefault();
-        showSection(item.getAttribute('data-section'));
+        const section = item.getAttribute('data-section');
+        showSection(section);
       });
     });
 
     const starCanvas = document.getElementById('starCanvas');
     const starCtx = starCanvas.getContext('2d');
-    let mouseX = 0, mouseY = 0;
+    let mouseX = 0;
+    let mouseY = 0;
+
     starCanvas.width = window.innerWidth;
     starCanvas.height = window.innerHeight;
 
@@ -705,7 +760,11 @@ still whoz here
       trailCanvas.height = window.innerHeight;
     });
 
-    function handleMouseMove(e) { mouseX = e.clientX; mouseY = e.clientY; }
+    // Mouse movement for stars and trail dots
+    function handleMouseMove(e) {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+    }
     document.addEventListener('mousemove', handleMouseMove);
 
     const container = document.querySelector('.container');
@@ -713,12 +772,13 @@ still whoz here
       const rect = container.getBoundingClientRect();
       const centerX = rect.left + rect.width / 2;
       const centerY = rect.top + rect.height / 2;
-      const mx = e.clientX - centerX;
-      const my = e.clientY - centerY;
-      const rotateX = (my / rect.height) * -20;
-      const rotateY = (mx / rect.width) * 20;
-      container.style.transform = \`perspective(1000px) rotateX(\${rotateX}deg) rotateY(\${rotateY}deg) translateX(-10px)\`;
+      const mouseX = e.clientX - centerX;
+      const mouseY = e.clientY - centerY;
+      const rotateX = (mouseY / rect.height) * -20;
+      const rotateY = (mouseX / rect.width) * 20;
+      container.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateX(-10px)`;
     });
+
     container.addEventListener('mouseleave', () => {
       container.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateX(-10px)';
     });
@@ -728,12 +788,13 @@ still whoz here
       const rect = profile.getBoundingClientRect();
       const centerX = rect.left + rect.width / 2;
       const centerY = rect.top + rect.height / 2;
-      const mx = e.clientX - centerX;
-      const my = e.clientY - centerY;
-      const rotateX = (my / rect.height) * -20;
-      const rotateY = (mx / rect.width) * 20;
-      profile.style.transform = \`perspective(1000px) rotateX(\${rotateX}deg) rotateY(\${rotateY}deg)\`;
+      const mouseX = e.clientX - centerX;
+      const mouseY = e.clientY - centerY;
+      const rotateX = (mouseY / rect.height) * -20;
+      const rotateY = (mouseX / rect.width) * 20;
+      profile.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
     });
+
     profile.addEventListener('mouseleave', () => {
       profile.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg)';
     });
@@ -743,27 +804,28 @@ still whoz here
       const rect = audioControls.getBoundingClientRect();
       const centerX = rect.left + rect.width / 2;
       const centerY = rect.top + rect.height / 2;
-      const mx = e.clientX - centerX;
-      const my = e.clientY - centerY;
-      const rotateX = (my / rect.height) * -20;
-      const rotateY = (mx / rect.width) * 20;
-      audioControls.style.transform = \`perspective(1000px) rotateX(\${rotateX}deg) rotateY(\${rotateY}deg)\`;
+      const mouseX = e.clientX - centerX;
+      const mouseY = e.clientY - centerY;
+      const rotateX = (mouseY / rect.height) * -20;
+      const rotateY = (mouseX / rect.width) * 20;
+      audioControls.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
     });
+
     audioControls.addEventListener('mouseleave', () => {
       audioControls.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg)';
     });
 
-    // CLICK TO ENTER -> fade overlay + start random music (no repeat per person)
     const clickToEnter = document.querySelector('.click-to-enter');
-    clickToEnter.addEventListener('click', async () => {
+    clickToEnter.addEventListener('click', () => {
       clickToEnter.classList.add('fading');
-      await startMusicAfterClick();
-      setTimeout(() => clickToEnter.remove(), 500);
-    }, { once: true });
+      setTimeout(() => {
+        clickToEnter.remove();
+      }, 500);
+    });
 
-    // ---- Grain animation ----
     const grains = [];
     const numGrains = 200;
+
     for (let i = 0; i < numGrains; i++) {
       grains.push({
         x: Math.random() * grainCanvas.width,
@@ -774,24 +836,33 @@ still whoz here
         vy: (Math.random() - 0.5) * 0.5
       });
     }
+
     function animateGrains() {
+      console.log('Animating grains');
       grainCtx.clearRect(0, 0, grainCanvas.width, grainCanvas.height);
+
       grains.forEach(grain => {
-        grain.x += grain.vx; grain.y += grain.vy;
+        grain.x += grain.vx;
+        grain.y += grain.vy;
+
         if (grain.x < 0 || grain.x > grainCanvas.width) grain.vx *= -1;
         if (grain.y < 0 || grain.y > grainCanvas.height) grain.vy *= -1;
+
         grain.opacity = Math.max(0.1, Math.min(0.4, grain.opacity + (Math.random() - 0.5) * 0.02));
+
         grainCtx.beginPath();
         grainCtx.arc(grain.x, grain.y, grain.radius, 0, Math.PI * 2);
         grainCtx.fillStyle = `rgba(255, 255, 255, ${grain.opacity})`;
         grainCtx.fill();
       });
+
       requestAnimationFrame(animateGrains);
     }
+
     animateGrains();
 
-    // ---- Trail animation ----
     const trailDots = [];
+
     function addTrailDots(e) {
       for (let i = 0; i < 2; i++) {
         trailDots.push({
@@ -805,27 +876,37 @@ still whoz here
         });
       }
     }
+
     document.addEventListener('mousemove', addTrailDots);
 
     function animateTrail() {
+      console.log('Animating trail dots');
       trailCtx.clearRect(0, 0, trailCanvas.width, trailCanvas.height);
+
       trailDots.forEach((dot, index) => {
         dot.x += dot.vx;
         dot.y += dot.vy;
         dot.opacity -= 0.02;
-        if (dot.opacity <= 0) { trailDots.splice(index, 1); return; }
+
+        if (dot.opacity <= 0) {
+          trailDots.splice(index, 1);
+          return;
+        }
+
         trailCtx.beginPath();
         trailCtx.arc(dot.x, dot.y, dot.radius, 0, Math.PI * 2);
         trailCtx.fillStyle = `${dot.color}${dot.opacity})`;
         trailCtx.fill();
       });
+
       requestAnimationFrame(animateTrail);
     }
+
     animateTrail();
 
-    // ---- Star animation ----
     const stars = [];
     const numStars = 50;
+
     for (let i = 0; i < numStars; i++) {
       stars.push({
         x: Math.random() * starCanvas.width,
@@ -842,15 +923,19 @@ still whoz here
     }
 
     function animateStars() {
+      console.log('Animating stars');
       starCtx.clearRect(0, 0, starCanvas.width, starCanvas.height);
+
       stars.forEach(star => {
         const dx = mouseX - star.originX;
         const dy = mouseY - star.originY;
         const distance = Math.sqrt(dx * dx + dy * dy);
         const maxDistance = 300;
+
         star.mouseInfluence = distance < maxDistance ? (1 - distance / maxDistance) * 0.02 : 0;
 
         star.angle += star.speed + star.mouseInfluence;
+
         star.x = star.originX + Math.cos(star.angle) * star.orbitRadius;
         star.y = star.originY + Math.sin(star.angle) * star.orbitRadius;
 
@@ -866,19 +951,109 @@ still whoz here
         starCtx.shadowColor = star.color.includes('255, 0, 0') ? '#f00' : '#fff';
         starCtx.fill();
       });
+
       requestAnimationFrame(animateStars);
     }
+
     animateStars();
 
-    // Secret Key feature
+    const audio = document.getElementById('backgroundMusic');
+    const volumeSlider = document.getElementById('volumeSlider');
+
+// ===== MINI PLAYER WIRING (SAFE) =====
+const trackTitle  = document.getElementById("trackTitle");
+const trackTime   = document.getElementById("trackTime");
+const seekSlider  = document.getElementById("seekSlider");
+const playPauseBtn= document.getElementById("playPauseBtn");
+const nextBtn     = document.getElementById("nextBtn");
+
+const hasMiniPlayer = !!(trackTitle && trackTime && seekSlider && playPauseBtn && nextBtn);
+
+function fmtTime(t) {
+  if (!Number.isFinite(t) || t < 0) return "0:00";
+  const m = Math.floor(t / 60);
+  const s = Math.floor(t % 60);
+  return `${m}:${String(s).padStart(2, "0")}`;
+}
+
+function setPlayIcon()  { playPauseBtn.innerHTML = '<i class="fa-solid fa-play"></i>'; }
+function setPauseIcon() { playPauseBtn.innerHTML = '<i class="fa-solid fa-pause"></i>'; }
+
+if (hasMiniPlayer) {
+  audio.addEventListener("loadedmetadata", () => {
+    trackTime.textContent = `${fmtTime(audio.currentTime)} / ${fmtTime(audio.duration)}`;
+  });
+
+  audio.addEventListener("timeupdate", () => {
+    if (!Number.isFinite(audio.duration) || audio.duration <= 0) return;
+    seekSlider.value = String((audio.currentTime / audio.duration) * 100);
+    trackTime.textContent = `${fmtTime(audio.currentTime)} / ${fmtTime(audio.duration)}`;
+  });
+
+  seekSlider.addEventListener("input", () => {
+    if (!Number.isFinite(audio.duration) || audio.duration <= 0) return;
+    audio.currentTime = (parseFloat(seekSlider.value) / 100) * audio.duration;
+  });
+
+  playPauseBtn.addEventListener("click", () => {
+    if (audio.paused) audio.play().then(setPauseIcon).catch(() => {});
+    else { audio.pause(); setPlayIcon(); }
+  });
+
+  nextBtn.addEventListener("click", () => {
+    // IMPORTANT: only call this if you have these functions in your code
+    loadAndPlaySong(pickNextSong());
+  });
+
+  audio.addEventListener("pause", setPlayIcon);
+  audio.addEventListener("play", setPauseIcon);
+}
+
+
+
+
+
+    audio.volume = 0.3;
+    volumeSlider.style.setProperty('--volume', `${audio.volume * 100}%`);
+
+    const playAudio = () => {
+      if (!audio.paused) return;
+      audio.play().catch(() => {
+        const tryPlayOnInteraction = () => {
+          audio.play().then(() => {
+            document.removeEventListener('click', tryPlayOnInteraction);
+            document.removeEventListener('touchstart', tryPlayOnInteraction);
+            document.removeEventListener('keydown', tryPlayOnInteraction);
+          }).catch(() => {});
+        };
+        document.addEventListener('click', tryPlayOnInteraction, { once: true });
+        document.addEventListener('touchstart', tryPlayOnInteraction, { once: true });
+        document.addEventListener('keydown', tryPlayOnInteraction, { once: true });
+      });
+    };
+
+    window.addEventListener('load', playAudio);
+
+    volumeSlider.addEventListener('input', () => {
+      audio.volume = volumeSlider.value;
+      volumeSlider.style.setProperty('--volume', `${audio.volume * 100}%`);
+    });
+
+    // Secret Key Feature
     const infoIcon = document.querySelector('.info-icon');
     const secretPopup = document.getElementById('secretPopup');
     const secretKeyInput = document.getElementById('secretKeyInput');
     let typedString = '';
     let isInfoIconHovered = false;
 
-    infoIcon.addEventListener('mouseenter', () => { isInfoIconHovered = true; });
-    infoIcon.addEventListener('mouseleave', () => { isInfoIconHovered = false; typedString = ''; });
+    infoIcon.addEventListener('mouseenter', () => {
+      isInfoIconHovered = true;
+    });
+
+    infoIcon.addEventListener('mouseleave', () => {
+      isInfoIconHovered = false;
+      typedString = '';
+    });
 
     document.addEventListener('keydown', (e) => {
       if (isInfoIconHovered && e.key.length === 1) {
