@@ -900,25 +900,6 @@ still whoz here
 
     audio.volume = 0.3;
     volumeSlider.style.setProperty('--volume', `${audio.volume * 100}%`);
-
-    const playAudio = () => {
-      if (!audio.paused) return;
-      audio.play().catch(() => {
-        const tryPlayOnInteraction = () => {
-          audio.play().then(() => {
-            document.removeEventListener('click', tryPlayOnInteraction);
-            document.removeEventListener('touchstart', tryPlayOnInteraction);
-            document.removeEventListener('keydown', tryPlayOnInteraction);
-          }).catch(() => {});
-        };
-        document.addEventListener('click', tryPlayOnInteraction, { once: true });
-        document.addEventListener('touchstart', tryPlayOnInteraction, { once: true });
-        document.addEventListener('keydown', tryPlayOnInteraction, { once: true });
-      });
-    };
-
-    window.addEventListener('load', playAudio);
-
     volumeSlider.addEventListener('input', () => {
       audio.volume = volumeSlider.value;
       volumeSlider.style.setProperty('--volume', `${audio.volume * 100}%`);
